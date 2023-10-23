@@ -4,7 +4,8 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node app.js",
+    "dev": "node --watch ."
   },
   "repository": {
     "type": "git",
@@ -15,5 +16,11 @@
   "bugs": {
     "url": "https://github.com/kk-md-rp-ms/nodejs_sem-3_sprint-1/issues"
   },
-  "homepage": "https://github.com/kk-md-rp-ms/nodejs_sem-3_sprint-1#readme"
+  "homepage": "https://github.com/kk-md-rp-ms/nodejs_sem-3_sprint-1#readme",
+  "dependencies": {
+    "chalk": "^4.1.2",
+    "crc": "^4.3.2",
+    "date-fns": "^2.30.0",
+    "uuid": "^9.0.1"
+  }
 }
