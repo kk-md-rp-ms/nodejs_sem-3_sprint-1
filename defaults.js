@@ -1,0 +1,1 @@
+exports.tokenExpiresDays = 3;
