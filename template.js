@@ -1,4 +1,16 @@
-const appAllFeatures = `
+exports.userTemplate = {
+  username: null,
+  email: null,
+  phone: null,
+};
+
+exports.tokenTemplate = {
+  token: null,
+  created: null,
+  expires: null,
+};
+
+exports.helpAllFeatures = `
 
 App for managing tokens associated with user accounts
 
@@ -49,7 +61,7 @@ Token Management Commands:
 
 `;
 
-const appInitFeature = `
+exports.helpInitFeature = `
 
 Name:                       init
 
@@ -66,7 +78,7 @@ The options are as follows:
 
 `;
 
-const appConfigFeature = `
+exports.helpConfigFeature = `
 
 Name:                       config
 
@@ -84,7 +96,7 @@ The options are as follows:
 
 `;
 
-const tokenFeature = `
+exports.helpTokenFeature = `
 
 Name:                       token
 
