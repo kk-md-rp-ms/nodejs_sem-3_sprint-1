@@ -1,7 +1,7 @@
 exports.userTemplate = {
   username: null,
-  email: null,
   phone: null,
+  email: null,
 };
 
 exports.tokenTemplate = {
@@ -50,8 +50,15 @@ Token Management Commands:
 
     --new <username>            
                                 generates a token for a given username, saves tokens to the json file
+    --new <username> <phone>           
+                                generates a token for a given username, saves tokens to the json file
+
+    --new <username> <phone> <email>         
+                                generates a token for a given username, saves tokens to the json file
+    
     --upd p <username> <phone>  
                                 updates the json entry with a new phone number
+    
     --upd e <username> <email>  
                                 updates the json entry with a new email
 
@@ -111,7 +118,12 @@ The options are as follows:
 
   --new <username>            
                             generates a token for a given username, saves tokens to the json file
-                            
+  --new <username> <phone>           
+                            generates a token for a given username, saves tokens to the json file
+
+  --new <username> <phone> <email>         
+                            generates a token for a given username, saves tokens to the json file
+
   --upd p <username> <phone>  
                             updates the json entry with a new phone number
 
