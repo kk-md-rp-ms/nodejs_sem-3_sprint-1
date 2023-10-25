@@ -1,5 +1,8 @@
+const { dirname } = require("node:path");
+
 const crc32 = require("crc/crc32");
 const { format } = require("date-fns");
+
 const { tokenFieldName } = require("./defaults");
 const { fetchFile, createFolder, createFile } = require("./utils-fs");
 
@@ -28,8 +31,8 @@ const createToken = (userObj, tokenObj, ttlDays) => {
   return newTokenObj;
 };
 
-const saveToken = async (tokenObj, folder, fileName) => {
-  let dataArr = (await fetchFile(folder, fileName)) || [];
+const saveToken = async (tokenObj, path) => {
+  let dataArr = (await fetchFile(path)) || [];
 
   if (!Array.isArray(dataArr)) {
     try {
@@ -42,8 +45,8 @@ const saveToken = async (tokenObj, folder, fileName) => {
 
   dataArr = checkTokenExistence(dataArr, tokenObj, tokenFieldName);
 
-  await createFolder(folder);
-  await createFile(JSON.stringify(dataArr, null, 2), folder, fileName);
+  await createFolder(dirname(path));
+  await createFile(JSON.stringify(dataArr, null, 2), path);
 };
 
 const checkTokenExistence = (allTokens, newToken, tokenFieldName) => {

@@ -85,7 +85,7 @@ The options are as follows:
 
 `;
 
-exports.helpConfigFeature = `
+exports.helpCfgFeature = `
 
 Name:                       config
 
