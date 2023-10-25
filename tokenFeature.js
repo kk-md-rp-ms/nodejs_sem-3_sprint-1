@@ -1,6 +1,6 @@
-const { createToken, createNewUserObj } = require("./utils-token");
+const { createToken, createNewUserObj, saveToken } = require("./utils-token");
 const { fetchFile } = require("./utils-fs");
-const { tokenExpiresDays } = require("./defaults");
+const { tokenExpiresDays, tokenFolder, tokenFile } = require("./defaults");
 
 const tokenFeature = (optionsArr) => {
   switch (optionsArr[0]) {
@@ -14,10 +14,12 @@ const tokenFeature = (optionsArr) => {
       // console.log(
       //   "FUNCTION: generates a token for a given username, saves tokens to the json file"
       // );
+
       const newTokenOptionsArr = optionsArr.slice(1);
 
       (async () => {
         try {
+          // issue-#23: add functionality if "user-config.json" and "token-config.json" weren't initialized
           const userTemplate = JSON.parse(
             await fetchFile("json", "user-config.json")
           );
@@ -46,7 +48,8 @@ const tokenFeature = (optionsArr) => {
             tokenTemplate,
             tokenExpiresDays
           );
-          console.log(newTokenObj);
+
+          saveToken(newTokenObj, tokenFolder, tokenFile);
         } catch ({ name, message }) {
           console.log(`${name}: ${message}`);
         }
