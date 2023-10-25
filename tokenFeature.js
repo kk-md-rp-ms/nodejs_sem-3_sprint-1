@@ -1,10 +1,20 @@
-const { createToken, createNewUserObj, saveToken } = require("./utils-token");
+const {
+  createToken,
+  createNewUserObj,
+  getAllTokensArr,
+  addToken,
+  saveToken,
+  updateToken,
+} = require("./utils-token");
 const { fetchFile } = require("./utils-fs");
 const {
   userCfgFilePath,
   tokenCfgFilePath,
   tokenExpiresDays,
+  tokenFieldName,
   allTokensFilePath,
+  tokenUpdAliasMap,
+  // tokenSearchAliasMap,
 } = require("./defaults");
 
 const tokenFeature = (optionsArr) => {
@@ -41,19 +51,47 @@ const tokenFeature = (optionsArr) => {
           );
 
           const newTokenObj = createToken(
+            tokenFieldName,
             newUserObj,
             tokenTemplate,
             tokenExpiresDays
           );
 
-          saveToken(newTokenObj, allTokensFilePath);
+          const dataArr = await getAllTokensArr(allTokensFilePath);
+          const updatedDataArr = addToken(dataArr, tokenFieldName, newTokenObj);
+
+          await saveToken(allTokensFilePath, updatedDataArr);
         } catch ({ name, message }) {
           console.log(`${name}: ${message}`);
         }
       })();
       break;
     case "--upd":
-      console.log("FUNCTION: updates the json entry with...options...");
+      // updates the json entry with...options..."
+      const updTokenOptionsArr = optionsArr.slice(1);
+
+      if (
+        updTokenOptionsArr.length <= 1 ||
+        updTokenOptionsArr.length > 3 ||
+        !tokenUpdAliasMap.has(updTokenOptionsArr[0])
+      ) {
+        console.log("Invalid syntax");
+        return;
+      }
+
+      (async () => {
+        const dataArr = await getAllTokensArr(allTokensFilePath);
+
+        const updatedDataArr = updateToken(
+          dataArr,
+          tokenFieldName,
+          updTokenOptionsArr[1],
+          tokenUpdAliasMap.get(updTokenOptionsArr[0]),
+          updTokenOptionsArr[2]
+        );
+
+        await saveToken(allTokensFilePath, updatedDataArr);
+      })();
       break;
     case "--search":
       console.log("FUNCTION: fetches a token for a given...options...");
