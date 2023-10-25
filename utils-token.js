@@ -3,7 +3,6 @@ const { dirname } = require("node:path");
 const crc32 = require("crc/crc32");
 const { format } = require("date-fns");
 
-const { tokenFieldName } = require("./defaults");
 const { fetchFile, createFolder, createFile } = require("./utils-fs");
 
 const createNewUserObj = (keysArr, ...args) => {
@@ -16,7 +15,7 @@ const createNewUserObj = (keysArr, ...args) => {
   return newUserObj;
 };
 
-const createToken = (userObj, tokenObj, ttlDays) => {
+const createToken = (tokenFieldName, userObj, tokenObj, ttlDays) => {
   const ttlArr = getTokenLifeSpan(ttlDays);
 
   const newTokenObj = {
@@ -24,14 +23,14 @@ const createToken = (userObj, tokenObj, ttlDays) => {
     ...tokenObj,
   };
 
-  newTokenObj[tokenFieldName] = crc32(userObj.username);
+  newTokenObj[tokenFieldName] = crc32(userObj.username).toString(16);
   newTokenObj.created = ttlArr[0];
   newTokenObj.expires = ttlArr[1];
 
   return newTokenObj;
 };
 
-const saveToken = async (tokenObj, path) => {
+const getAllTokensArr = async (path) => {
   let dataArr = (await fetchFile(path)) || [];
 
   if (!Array.isArray(dataArr)) {
@@ -43,16 +42,49 @@ const saveToken = async (tokenObj, path) => {
     }
   }
 
-  dataArr = updateTokensData(dataArr, tokenObj, tokenFieldName);
-
-  await createFolder(dirname(path));
-  await createFile(JSON.stringify(dataArr, null, 2), path);
+  return dataArr;
 };
 
-const updateTokensData = (allTokens, newToken, tokenFieldName) => {
+const saveToken = async (path, data) => {
+  await createFolder(dirname(path));
+  await createFile(JSON.stringify(data, null, 2), path);
+};
+
+const updateToken = (
+  allTokens,
+  tokenFieldName,
+  tokenValue,
+  fieldToUpdate,
+  newData
+) => {
+  const token = crc32(tokenValue).toString(16);
+
+  console.log(allTokens);
+
+  let flagUpdateSuccess = false;
+  const data = allTokens.map((item) => {
+    if (item[tokenFieldName] === token) {
+      flagUpdateSuccess = true;
+      return { ...item, [fieldToUpdate]: newData };
+    }
+
+    return item;
+  });
+
+  if (!flagUpdateSuccess) {
+    console.log(`"${tokenValue}" not found. Data wasn't updated`);
+  } else {
+    console.log(`"${fieldToUpdate}" successfully updated to "${newData}"`);
+  }
+
+  console.log(data);
+  return data;
+};
+
+const addToken = (allTokens, tokenFieldName, newToken) => {
   let flagTokenExist = false;
 
-  data = allTokens.map((item) => {
+  const data = allTokens.map((item) => {
     if (item[tokenFieldName] === newToken[tokenFieldName]) {
       flagTokenExist = true;
       return { ...item, ...newToken };
@@ -78,5 +110,8 @@ const getTokenLifeSpan = (ttlDays) => {
 module.exports = {
   createToken,
   createNewUserObj,
+  getAllTokensArr,
+  addToken,
   saveToken,
+  updateToken,
 };
