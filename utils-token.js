@@ -45,6 +45,11 @@ const getAllTokensArr = async (path) => {
   return dataArr;
 };
 
+const getTokensNum = async (path) => {
+  const dataArr = await getAllTokensArr(path);
+  return `The current count of tokens is: ${dataArr.length}`;
+};
+
 const saveToken = async (path, data) => {
   await createFolder(dirname(path));
   await createFile(JSON.stringify(data, null, 2), path);
@@ -74,7 +79,9 @@ const updateToken = (
   if (!flagUpdateSuccess) {
     console.log(`"${tokenValue}" not found. Data wasn't updated`);
   } else {
-    console.log(`"${fieldToUpdate}" successfully updated to "${newData}"`);
+    console.log(
+      `"${fieldToUpdate}" successfully updated for "${tokenValue}". The updated value is: "${newData}"`
+    );
   }
 
   console.log(data);
@@ -111,6 +118,7 @@ module.exports = {
   createToken,
   createNewUserObj,
   getAllTokensArr,
+  getTokensNum,
   addToken,
   saveToken,
   updateToken,
