@@ -43,13 +43,13 @@ const saveToken = async (tokenObj, path) => {
     }
   }
 
-  dataArr = checkTokenExistence(dataArr, tokenObj, tokenFieldName);
+  dataArr = updateTokensData(dataArr, tokenObj, tokenFieldName);
 
   await createFolder(dirname(path));
   await createFile(JSON.stringify(dataArr, null, 2), path);
 };
 
-const checkTokenExistence = (allTokens, newToken, tokenFieldName) => {
+const updateTokensData = (allTokens, newToken, tokenFieldName) => {
   let flagTokenExist = false;
 
   data = allTokens.map((item) => {
