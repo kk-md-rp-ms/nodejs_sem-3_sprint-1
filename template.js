@@ -1,3 +1,5 @@
+exports.folderStructure = ["views", "logs", "json", "txt"];
+
 exports.userTemplate = {
   username: null,
   phone: null,
