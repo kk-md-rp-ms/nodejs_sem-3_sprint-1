@@ -2,6 +2,7 @@ const {
   createToken,
   createNewUserObj,
   getAllTokensArr,
+  getTokensNum,
   addToken,
   saveToken,
   updateToken,
@@ -21,13 +22,16 @@ const tokenFeature = (optionsArr) => {
   switch (optionsArr[0]) {
     case "--help":
       console.log("displays help for the token command");
+
       break;
     case "--count":
-      console.log("displays a count of the tokens created");
+      // displays a count of the tokens created
+      (async () => {
+        console.log(await getTokensNum(allTokensFilePath));
+      })();
       break;
     case "--new":
       // generates a token for a given username, saves tokens to the json file
-
       const newTokenOptionsArr = optionsArr.slice(1);
 
       (async () => {
@@ -67,7 +71,7 @@ const tokenFeature = (optionsArr) => {
       })();
       break;
     case "--upd":
-      // updates the json entry with...options..."
+      // updates the json entry with...options...
       const updTokenOptionsArr = optionsArr.slice(1);
 
       if (
