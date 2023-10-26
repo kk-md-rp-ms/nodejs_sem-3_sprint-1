@@ -18,9 +18,15 @@
   },
   "homepage": "https://github.com/kk-md-rp-ms/nodejs_sem-3_sprint-1#readme",
   "dependencies": {
+    "axios": "^1.5.1",
     "chalk": "^4.1.2",
     "crc": "^4.3.2",
     "date-fns": "^2.30.0",
     "uuid": "^9.0.1"
+  },
+  "devDependencies": {
+    "chai": "^4.3.10",
+    "mocha": "^10.2.0",
+    "supertest": "^6.3.3"
   }
 }
