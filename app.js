@@ -18,7 +18,9 @@ switch (feature) {
   case "token":
   case "t":
     // If the feature is "token" or "t", call the "tokenFeature" function and pass the options
-    tokenFeature(featureOptions);
+    (async () => {
+      await tokenFeature(featureOptions);
+    })();
     break;
   // Other cases will be add soon
 }
