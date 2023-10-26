@@ -3,19 +3,12 @@ const { dirname } = require("node:path");
 const crc32 = require("crc/crc32");
 const { format } = require("date-fns");
 
-const { fetchFile, createFolder, createFile } = require("./utils-fs");
+const { fetchJSONFile, createFolder, createFile } = require("./utils-fs");
 
 const getAllTokens = async (path) => {
-  let dataArr = (await fetchFile(path)) || [];
+  let dataArr = (await fetchJSONFile(path)) || [];
 
-  if (!Array.isArray(dataArr)) {
-    try {
-      dataArr = JSON.parse(dataArr);
-    } catch (err) {
-      dataArr = [];
-      console.log(err);
-    }
-  }
+  if (!Array.isArray(dataArr)) dataArr = [];
 
   return dataArr;
 };
@@ -35,7 +28,13 @@ const createNewUserObj = (keysArr, ...args) => {
   return newUserObj;
 };
 
-const createToken = (tokenFieldName, userObj, tokenObj, ttlDays) => {
+const createToken = (
+  tokenField,
+  tokenFromField,
+  userObj,
+  tokenObj,
+  ttlDays
+) => {
   const ttlArr = getTokenLifeSpan(ttlDays);
 
   const newTokenObj = {
@@ -43,18 +42,18 @@ const createToken = (tokenFieldName, userObj, tokenObj, ttlDays) => {
     ...tokenObj,
   };
 
-  newTokenObj[tokenFieldName] = crc32(userObj.username).toString(16);
+  newTokenObj[tokenField] = crc32(userObj[tokenFromField]).toString(16);
   newTokenObj.created = ttlArr[0];
   newTokenObj.expires = ttlArr[1];
 
   return newTokenObj;
 };
 
-const addToken = (allTokens, tokenFieldName, newToken) => {
+const addToken = (allTokens, tokenField, newToken) => {
   let flagTokenExist = false;
 
   const data = allTokens.map((item) => {
-    if (item[tokenFieldName] === newToken[tokenFieldName]) {
+    if (item[tokenField] === newToken[tokenField]) {
       flagTokenExist = true;
       return { ...item, ...newToken };
     }
@@ -68,18 +67,16 @@ const addToken = (allTokens, tokenFieldName, newToken) => {
 
 const updateToken = (
   allTokens,
-  tokenFieldName,
+  tokenField,
   tokenValue,
   fieldToUpdate,
   newData
 ) => {
   const token = crc32(tokenValue).toString(16);
 
-  console.log(allTokens);
-
   let flagUpdateSuccess = false;
   const data = allTokens.map((item) => {
-    if (item[tokenFieldName] === token) {
+    if (item[tokenField] === token) {
       flagUpdateSuccess = true;
       return { ...item, [fieldToUpdate]: newData };
     }
@@ -95,7 +92,6 @@ const updateToken = (
     );
   }
 
-  console.log(data);
   return data;
 };
 
