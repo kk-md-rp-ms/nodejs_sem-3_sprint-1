@@ -8,12 +8,14 @@ const {
   updateToken,
   searchToken,
 } = require("./utils-token");
-const { fetchFile } = require("./utils-fs");
+const { fetchJSONFile, fetchTxtFile } = require("./utils-fs");
 const {
+  tokenHelpFilePath,
   userCfgFilePath,
   tokenCfgFilePath,
   tokenExpiresDays,
-  tokenFieldName,
+  tokenField,
+  tokenFromField,
   allTokensFilePath,
   tokenUpdAliasMap,
   tokenSearchAliasMap,
@@ -22,17 +24,28 @@ const {
 const tokenFeature = (optionsArr) => {
   switch (optionsArr[0]) {
     case "--help":
-      console.log("displays help for the token command");
+      // displays help for the token command
+
+      const helpTokenOptionsArr = optionsArr.slice(1);
+      if (helpTokenOptionsArr.length) {
+        console.log("Invalid syntax");
+        return;
+      }
+
+      (async () => {
+        const data = await fetchTxtFile(tokenHelpFilePath);
+        console.log(data);
+      })();
 
       break;
     case "--count":
       // displays a count of the tokens created
 
-      // const countTokenOptionsArr = optionsArr.slice(1);
-      // if (countTokenOptionsArr.length != 0) {
-      //   console.log("Invalid syntax");
-      //   return;
-      // }
+      const countTokenOptionsArr = optionsArr.slice(1);
+      if (countTokenOptionsArr.length) {
+        console.log("Invalid syntax");
+        return;
+      }
 
       (async () => {
         console.log(await getTokensNum(allTokensFilePath));
@@ -45,12 +58,12 @@ const tokenFeature = (optionsArr) => {
       (async () => {
         try {
           // issue-#23: add functionality if "user-config.json" and "token-config.json" weren't initialized
-          const userTemplate = JSON.parse(await fetchFile(userCfgFilePath));
-          const tokenTemplate = JSON.parse(await fetchFile(tokenCfgFilePath));
+          const userTemplate = await fetchJSONFile(userCfgFilePath);
+          const tokenTemplate = await fetchJSONFile(tokenCfgFilePath);
           const userTemplateKeysArr = Object.keys(userTemplate);
 
           if (
-            newTokenOptionsArr.length == 0 ||
+            !newTokenOptionsArr.length ||
             newTokenOptionsArr.length > userTemplateKeysArr.length
           ) {
             console.log("Invalid syntax");
@@ -63,14 +76,15 @@ const tokenFeature = (optionsArr) => {
           );
 
           const newTokenObj = createToken(
-            tokenFieldName,
+            tokenField,
+            tokenFromField,
             newUserObj,
             tokenTemplate,
             tokenExpiresDays
           );
 
           const dataArr = await getAllTokens(allTokensFilePath);
-          const updatedDataArr = addToken(dataArr, tokenFieldName, newTokenObj);
+          const updatedDataArr = addToken(dataArr, tokenField, newTokenObj);
 
           await saveToken(allTokensFilePath, updatedDataArr);
         } catch ({ name, message }) {
@@ -83,8 +97,7 @@ const tokenFeature = (optionsArr) => {
       const updTokenOptionsArr = optionsArr.slice(1);
 
       if (
-        updTokenOptionsArr.length <= 1 ||
-        updTokenOptionsArr.length > 3 ||
+        updTokenOptionsArr.length != 3 ||
         !tokenUpdAliasMap.has(updTokenOptionsArr[0])
       ) {
         console.log("Invalid syntax");
@@ -96,7 +109,7 @@ const tokenFeature = (optionsArr) => {
 
         const updatedDataArr = updateToken(
           dataArr,
-          tokenFieldName,
+          tokenField,
           updTokenOptionsArr[1],
           tokenUpdAliasMap.get(updTokenOptionsArr[0]),
           updTokenOptionsArr[2]
