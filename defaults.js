@@ -32,14 +32,12 @@ const tokenSearchAliasMap = new Map([
 ]);
 
 module.exports = {
-  tokenExpiresDays,
-  cfgFolder,
-  userCfgFile,
-  tokenCfgFile,
+  initHelpFilePath,
+  cfgHelpFilePath,
+  tokenHelpFilePath,
   userCfgFilePath,
   tokenCfgFilePath,
-  tokenFolder,
-  tokenFile,
+  tokenExpiresDays,
   tokenFieldName,
   allTokensFilePath,
   tokenUpdAliasMap,
