@@ -1,11 +1,22 @@
 const { readFile, writeFile, mkdir } = require("node:fs/promises");
 const { join } = require("node:path");
 
-const fetchFile = async (...pathArgs) => {
+const fetchJSONFile = async (...pathArgs) => {
   const path = join(__dirname, ...pathArgs);
 
   try {
-    const data = await readFile(path);
+    const data = JSON.parse(await readFile(path));
+    return data;
+  } catch ({ name, message }) {
+    console.log(`${name}: ${message}`);
+  }
+};
+
+const fetchTxtFile = async (...pathArgs) => {
+  const path = join(__dirname, ...pathArgs);
+
+  try {
+    const data = await readFile(path, { encoding: "utf-8" });
     return data;
   } catch ({ name, message }) {
     console.log(`${name}: ${message}`);
@@ -35,7 +46,8 @@ const createFile = async (content, ...pathArgs) => {
 };
 
 module.exports = {
-  fetchFile,
+  fetchJSONFile,
+  fetchTxtFile,
   createFolder,
   createFile,
 };
