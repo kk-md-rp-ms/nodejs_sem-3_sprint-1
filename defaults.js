@@ -17,7 +17,8 @@ const tokenCfgFilePath = join(cfgFolder, tokenCfgFile);
 const tokenExpiresDays = 3;
 const tokenFolder = "json";
 const tokenFile = "all-tokens.json";
-const tokenFieldName = "token";
+const tokenField = "token";
+const tokenFromField = "username";
 const allTokensFilePath = join(tokenFolder, tokenFile);
 
 const tokenUpdAliasMap = new Map([
@@ -38,7 +39,8 @@ module.exports = {
   userCfgFilePath,
   tokenCfgFilePath,
   tokenExpiresDays,
-  tokenFieldName,
+  tokenField,
+  tokenFromField,
   allTokensFilePath,
   tokenUpdAliasMap,
   tokenSearchAliasMap,
