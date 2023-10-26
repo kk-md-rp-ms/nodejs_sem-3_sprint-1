@@ -30,7 +30,7 @@ const createToken = (tokenFieldName, userObj, tokenObj, ttlDays) => {
   return newTokenObj;
 };
 
-const getAllTokensArr = async (path) => {
+const getAllTokens = async (path) => {
   let dataArr = (await fetchFile(path)) || [];
 
   if (!Array.isArray(dataArr)) {
@@ -46,7 +46,7 @@ const getAllTokensArr = async (path) => {
 };
 
 const getTokensNum = async (path) => {
-  const dataArr = await getAllTokensArr(path);
+  const dataArr = await getAllTokens(path);
   return `The current count of tokens is: ${dataArr.length}`;
 };
 
@@ -117,7 +117,7 @@ const getTokenLifeSpan = (ttlDays) => {
 module.exports = {
   createToken,
   createNewUserObj,
-  getAllTokensArr,
+  getAllTokens,
   getTokensNum,
   addToken,
   saveToken,
