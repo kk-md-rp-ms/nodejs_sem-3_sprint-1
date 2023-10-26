@@ -1,11 +1,12 @@
 const {
   createToken,
   createNewUserObj,
-  getAllTokensArr,
+  getAllTokens,
   getTokensNum,
   addToken,
   saveToken,
   updateToken,
+  searchToken,
 } = require("./utils-token");
 const { fetchFile } = require("./utils-fs");
 const {
@@ -15,7 +16,7 @@ const {
   tokenFieldName,
   allTokensFilePath,
   tokenUpdAliasMap,
-  // tokenSearchAliasMap,
+  tokenSearchAliasMap,
 } = require("./defaults");
 
 const tokenFeature = (optionsArr) => {
@@ -26,6 +27,13 @@ const tokenFeature = (optionsArr) => {
       break;
     case "--count":
       // displays a count of the tokens created
+
+      // const countTokenOptionsArr = optionsArr.slice(1);
+      // if (countTokenOptionsArr.length != 0) {
+      //   console.log("Invalid syntax");
+      //   return;
+      // }
+
       (async () => {
         console.log(await getTokensNum(allTokensFilePath));
       })();
@@ -61,7 +69,7 @@ const tokenFeature = (optionsArr) => {
             tokenExpiresDays
           );
 
-          const dataArr = await getAllTokensArr(allTokensFilePath);
+          const dataArr = await getAllTokens(allTokensFilePath);
           const updatedDataArr = addToken(dataArr, tokenFieldName, newTokenObj);
 
           await saveToken(allTokensFilePath, updatedDataArr);
@@ -84,7 +92,7 @@ const tokenFeature = (optionsArr) => {
       }
 
       (async () => {
-        const dataArr = await getAllTokensArr(allTokensFilePath);
+        const dataArr = await getAllTokens(allTokensFilePath);
 
         const updatedDataArr = updateToken(
           dataArr,
@@ -98,7 +106,27 @@ const tokenFeature = (optionsArr) => {
       })();
       break;
     case "--search":
-      console.log("FUNCTION: fetches a token for a given...options...");
+      // fetches a token for a given...options...
+      const searchTokenOptionsArr = optionsArr.slice(1);
+
+      if (
+        searchTokenOptionsArr.length != 2 ||
+        !tokenSearchAliasMap.has(searchTokenOptionsArr[0])
+      ) {
+        console.log("Invalid syntax");
+        return;
+      }
+
+      (async () => {
+        const dataArr = await getAllTokens(allTokensFilePath);
+        const filteredData = searchToken(
+          dataArr,
+          tokenSearchAliasMap.get(searchTokenOptionsArr[0]),
+          searchTokenOptionsArr[1]
+        );
+        console.log(filteredData);
+      })();
+
       break;
   }
 };
