@@ -104,6 +104,12 @@ const saveToken = async (path, data) => {
   await createFile(JSON.stringify(data, null, 2), path);
 };
 
+const searchToken = (data, field, value) => {
+  const result = data.filter((item) => item[field] === value);
+
+  return result.length > 0 ? result : `There is no "${field}" like "${value}"`;
+};
+
 const getTokenLifeSpan = (ttlDays) => {
   const createdDate = Date.now();
   const expiresDate = new Date();
@@ -122,4 +128,5 @@ module.exports = {
   addToken,
   saveToken,
   updateToken,
+  searchToken,
 };
