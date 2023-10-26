@@ -5,6 +5,26 @@ const { format } = require("date-fns");
 
 const { fetchFile, createFolder, createFile } = require("./utils-fs");
 
+const getAllTokens = async (path) => {
+  let dataArr = (await fetchFile(path)) || [];
+
+  if (!Array.isArray(dataArr)) {
+    try {
+      dataArr = JSON.parse(dataArr);
+    } catch (err) {
+      dataArr = [];
+      console.log(err);
+    }
+  }
+
+  return dataArr;
+};
+
+const getTokensNum = async (path) => {
+  const dataArr = await getAllTokens(path);
+  return `The current count of tokens is: ${dataArr.length}`;
+};
+
 const createNewUserObj = (keysArr, ...args) => {
   const newUserObj = {};
 
@@ -30,29 +50,20 @@ const createToken = (tokenFieldName, userObj, tokenObj, ttlDays) => {
   return newTokenObj;
 };
 
-const getAllTokens = async (path) => {
-  let dataArr = (await fetchFile(path)) || [];
+const addToken = (allTokens, tokenFieldName, newToken) => {
+  let flagTokenExist = false;
 
-  if (!Array.isArray(dataArr)) {
-    try {
-      dataArr = JSON.parse(dataArr);
-    } catch (err) {
-      dataArr = [];
-      console.log(err);
+  const data = allTokens.map((item) => {
+    if (item[tokenFieldName] === newToken[tokenFieldName]) {
+      flagTokenExist = true;
+      return { ...item, ...newToken };
     }
-  }
 
-  return dataArr;
-};
+    return item;
+  });
 
-const getTokensNum = async (path) => {
-  const dataArr = await getAllTokens(path);
-  return `The current count of tokens is: ${dataArr.length}`;
-};
-
-const saveToken = async (path, data) => {
-  await createFolder(dirname(path));
-  await createFile(JSON.stringify(data, null, 2), path);
+  !flagTokenExist && data.push(newToken);
+  return data;
 };
 
 const updateToken = (
@@ -88,20 +99,9 @@ const updateToken = (
   return data;
 };
 
-const addToken = (allTokens, tokenFieldName, newToken) => {
-  let flagTokenExist = false;
-
-  const data = allTokens.map((item) => {
-    if (item[tokenFieldName] === newToken[tokenFieldName]) {
-      flagTokenExist = true;
-      return { ...item, ...newToken };
-    }
-
-    return item;
-  });
-
-  !flagTokenExist && data.push(newToken);
-  return data;
+const saveToken = async (path, data) => {
+  await createFolder(dirname(path));
+  await createFile(JSON.stringify(data, null, 2), path);
 };
 
 const getTokenLifeSpan = (ttlDays) => {
