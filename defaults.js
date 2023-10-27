@@ -1,7 +1,11 @@
 // Import required functions/variables from built-in modules
 const { join } = require("node:path");
 
+// Import external packages
+const { format } = require("date-fns");
+
 // Define and initialize various file paths, folders, and configuration values
+const notFoundMessage = "File not found";
 
 // Folder and files for the help options
 const helpFolder = "txt";
@@ -33,6 +37,15 @@ const tokenFromField = "username";
 // Create full file paths by joining folder and file names
 const allTokensFilePath = join(tokenFolder, tokenFile);
 
+// Folder for logs
+const logFolder = "logs";
+const logSubFolder = () => {
+  return join(logFolder, format(new Date(), "MM-yyyy"));
+};
+const logFile = () => {
+  return join(logSubFolder(), format(new Date(), "dd-MM-yyyy") + ".log");
+};
+
 // Map to define aliases for updating token fields
 const tokenUpdAliasMap = new Map([
   ["e", "email"],
@@ -48,6 +61,7 @@ const tokenSearchAliasMap = new Map([
 
 // Export all the defined variables for use in other modules
 module.exports = {
+  notFoundMessage,
   initHelpFilePath,
   cfgHelpFilePath,
   tokenHelpFilePath,
@@ -57,6 +71,9 @@ module.exports = {
   tokenField,
   tokenFromField,
   allTokensFilePath,
+  logFolder,
+  logSubFolder,
+  logFile,
   tokenUpdAliasMap,
   tokenSearchAliasMap,
 };
