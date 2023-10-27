@@ -18,8 +18,10 @@ const featureOptions = commandsArr.slice(1);
 switch (feature) {
   case "token":
   case "t":
-    // If the feature is "token" or "t", call the "tokenFeature" function and pass the options
+    // Write log to the file
     logEE.logFile("cli-token", "info", `Access to the "token" feature`);
+
+    // If the feature is "token" or "t", call the "tokenFeature" function and pass the options
     (async () => {
       await tokenFeature(featureOptions);
     })();
