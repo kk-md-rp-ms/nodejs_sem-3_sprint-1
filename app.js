@@ -2,6 +2,7 @@
 const { argv } = require("node:process");
 
 // Import required functions/variables from custom modules
+const logEE = require("./log-emitter");
 const { tokenFeature } = require("./tokenFeature");
 
 // Get command-line arguments, excluding the first two elements (node executable and script filename)
@@ -18,9 +19,10 @@ switch (feature) {
   case "token":
   case "t":
     // If the feature is "token" or "t", call the "tokenFeature" function and pass the options
+    logEE.logFile("cli-token", "info", `Access to the "token" feature`);
     (async () => {
       await tokenFeature(featureOptions);
     })();
     break;
-  // Other cases will be add soon
+  // Other cases will be added soon
 }
