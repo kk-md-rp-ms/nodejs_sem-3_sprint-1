@@ -30,7 +30,7 @@ const {
 // Function to retrieve all tokens from a JSON file
 const getAllTokens = async (path) => {
   // Write log to the file
-  logEE.logFile("getAllTokens", "info", "All tokens were requested");
+  logEE.logToFile("getAllTokens", "info", "All tokens were requested");
 
   // Retrieve data from the specified JSON file
   // Initialize an empty array if cannot be assigned
@@ -44,7 +44,7 @@ const getAllTokens = async (path) => {
 // Function to get the number of tokens
 const getTokensNum = async (path) => {
   // Write log to the file
-  logEE.logFile("getTokensNum", "info", "Tokens current count was requested");
+  logEE.logToFile("getTokensNum", "info", "Tokens current count was requested");
 
   // Get all tokens and return the count
   const dataArr = await getAllTokens(path);
@@ -61,7 +61,7 @@ const createNewUserObj = (keysArr, ...args) => {
   }
 
   // Write log to the file
-  logEE.logFile("createNewUserObj", "info", "New user object was created");
+  logEE.logToFile("createNewUserObj", "info", "New user object was created");
   return newUserObj;
 };
 
@@ -90,7 +90,7 @@ const createToken = (
   newTokenObj.expires = ttlArr[1];
 
   // Write log to the file
-  logEE.logFile("createToken", "info", "New token was generated");
+  logEE.logToFile("createToken", "info", "New token was generated");
   return newTokenObj;
 };
 
@@ -110,13 +110,13 @@ const addToken = (allTokens, tokenField, newToken) => {
 
   if (flagTokenExist) {
     // Write log to the file
-    logEE.logFile("addToken", "warning", "Token existed and was updated");
+    logEE.logToFile("addToken", "warning", "Token existed and was updated");
   } else {
     // If the token doesn't exist, add the new token to the array
     data.push(newToken);
 
     // Write log to the file
-    logEE.logFile("addToken", "info", "New token was added");
+    logEE.logToFile("addToken", "info", "New token was added");
   }
 
   return data;
@@ -151,7 +151,7 @@ const updateToken = (
       `"${fieldToUpdate}" successfully updated for "${tokenValue}". The updated value is: "${newData}"`
     );
     // Write log to the file
-    logEE.logFile(
+    logEE.logToFile(
       "updateToken",
       "info",
       `"${fieldToUpdate}" successfully updated for "${tokenValue}". The updated value is: "${newData}"`
@@ -160,7 +160,7 @@ const updateToken = (
     console.log(`"${tokenValue}" not found. Data wasn't updated`);
 
     // Write log to the file
-    logEE.logFile(
+    logEE.logToFile(
       "updateToken",
       "warning",
       `"${tokenValue}" not found. Data wasn't updated`
@@ -179,7 +179,7 @@ const saveToken = async (path, data) => {
   await createFile(JSON.stringify(data, null, 2), path);
 
   // Write log to the file
-  logEE.logFile(
+  logEE.logToFile(
     "saveToken",
     "success",
     `Token was saved succesfully. File: "${basename(path)}" was rewritten`
@@ -195,11 +195,11 @@ const searchToken = (data, field, value) => {
   // Provide feedback if no matching tokens are found
   if (result.length) {
     // Write log to the file
-    logEE.logFile("searchToken", "success", "The search result was returned");
+    logEE.logToFile("searchToken", "success", "The search result was returned");
     return result;
   } else {
     // Write log to the file
-    logEE.logFile(
+    logEE.logToFile(
       "searchToken",
       "warning",
       `The data wasn't found. There is no "${field}" like "${value}"`
@@ -216,7 +216,7 @@ const getTokenLifeSpan = (ttlDays) => {
   expiresDate.setDate(expiresDate.getDate() + ttlDays);
 
   // Write log to the file
-  logEE.logFile("getTokenLifeSpan", "info", "Token life span was set");
+  logEE.logToFile("getTokenLifeSpan", "info", "Token life span was set");
 
   // Format and return the creation and expiration date and/or time
   return [createdDate, expiresDate].map((item) =>
@@ -228,10 +228,11 @@ const getTokenLifeSpan = (ttlDays) => {
 const processTokenHelp = async (optionsArr) => {
   // Check if there are extra arguments after "--help"
   if (optionsArr.length) {
+    // Provide feedback
     console.log("Invalid syntax");
 
     // Write log to the file
-    logEE.logFile("processTokenHelp", "warning", "Invalid syntax");
+    logEE.logToFile("processTokenHelp", "warning", "Invalid syntax");
     return;
   }
 
@@ -242,25 +243,30 @@ const processTokenHelp = async (optionsArr) => {
 
   // Write log to the file
   data !== notFoundMessage
-    ? logEE.logFile("processTokenHelp", "success", `"help" file was displayed`)
-    : logEE.logFile("processTokenHelp", "error", `"help" file not found`);
+    ? logEE.logToFile(
+        "processTokenHelp",
+        "success",
+        `"help" file was displayed`
+      )
+    : logEE.logToFile("processTokenHelp", "error", `"help" file not found`);
 };
 
 // Functions to process the token option "--count"
 const processTokenCount = async (optionsArr) => {
   // Check if there are extra arguments after "--count"
   if (optionsArr.length) {
+    // Provide feedback
     console.log("Invalid syntax");
 
     // Write log to the file
-    logEE.logFile("processTokenCount", "warning", "Invalid syntax");
+    logEE.logToFile("processTokenCount", "warning", "Invalid syntax");
     return;
   }
   // Get the count of tokens from the specified file and display it
   console.log(await getTokensNum(allTokensFilePath));
 
   // Write log to the file
-  logEE.logFile(
+  logEE.logToFile(
     "processTokenCount",
     "success",
     "The current count of tokens was displayed"
@@ -280,10 +286,11 @@ const processTokenCreate = async (optionsArr) => {
 
     // Check if the provided arguments are valid for generating a new token
     if (!userTemplateKeysArr.length) {
+      // Provide feedback
       console.log("User configuration file not found");
 
       // Write log to the file
-      logEE.logFile(
+      logEE.logToFile(
         "processTokenCreate",
         "error",
         "User configuration file not found"
@@ -293,10 +300,11 @@ const processTokenCreate = async (optionsArr) => {
       !optionsArr.length ||
       optionsArr.length > userTemplateKeysArr.length
     ) {
+      // Provide feedback
       console.log("Invalid syntax");
 
       // Write log to the file
-      logEE.logFile("processTokenCreate", "warning", "Invalid syntax");
+      logEE.logToFile("processTokenCreate", "warning", "Invalid syntax");
       return;
     }
 
@@ -320,12 +328,9 @@ const processTokenCreate = async (optionsArr) => {
 
     // Save tokens back to the file
     await saveToken(allTokensFilePath, updatedDataArr);
-  } catch ({ name, message }) {
-    // Handle and display errors
-    console.log(`${name}: ${message}`);
-
-    // Write log to the file
-    logEE.logFile("processTokenCreate", "error", `${name}: ${message}`);
+  } catch ({ message }) {
+    // Handle and log any errors that occurs
+    logEE.logToFile("processTokenCreate", "error", `${message}`);
   }
 };
 
@@ -333,10 +338,11 @@ const processTokenCreate = async (optionsArr) => {
 const processTokenUpdate = async (optionsArr) => {
   // Check if the arguments for updating a token are valid
   if (optionsArr.length != 3 || !tokenUpdAliasMap.has(optionsArr[0])) {
+    // Provide feedback
     console.log("Invalid syntax");
 
     // Write log to the file
-    logEE.logFile("processTokenUpdate", "warning", "Invalid syntax");
+    logEE.logToFile("processTokenUpdate", "warning", "Invalid syntax");
     return;
   }
 
@@ -360,10 +366,11 @@ const processTokenUpdate = async (optionsArr) => {
 const processTokenSearch = async (optionsArr) => {
   // Check if the arguments for searching a token are valid
   if (optionsArr.length != 2 || !tokenSearchAliasMap.has(optionsArr[0])) {
+    // Provide feedback
     console.log("Invalid syntax");
 
     // Write log to the file
-    logEE.logFile("processTokenSearch", "warning", "Invalid syntax");
+    logEE.logToFile("processTokenSearch", "warning", "Invalid syntax");
     return;
   }
 
