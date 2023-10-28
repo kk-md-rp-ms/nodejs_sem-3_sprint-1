@@ -1,16 +1,22 @@
+// Folder structure created by "init" feature
 exports.folderStructure = ["views", "logs", "json", "txt"];
 
+// User template used to generate a new token
 exports.userTemplate = {
   username: null,
   phone: null,
   email: null,
 };
 
+// Token template used to generate a new token
 exports.tokenTemplate = {
   token: null,
   created: null,
   expires: null,
 };
+
+// Define variables for "--help" option.
+// Variables will be used by "init" feature to create help files in "txt" folder
 
 exports.helpAllFeatures = `
 

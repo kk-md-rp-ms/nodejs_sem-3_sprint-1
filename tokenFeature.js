@@ -1,108 +1,55 @@
+// Import required functions/variables from custom modules
+const logEE = require("./log-emitter");
 const {
-  createToken,
-  createNewUserObj,
-  getAllTokensArr,
-  getTokensNum,
-  addToken,
-  saveToken,
-  updateToken,
+  processTokenHelp,
+  processTokenCount,
+  processTokenCreate,
+  processTokenUpdate,
+  processTokenSearch,
 } = require("./utils-token");
-const { fetchFile } = require("./utils-fs");
-const {
-  userCfgFilePath,
-  tokenCfgFilePath,
-  tokenExpiresDays,
-  tokenFieldName,
-  allTokensFilePath,
-  tokenUpdAliasMap,
-  // tokenSearchAliasMap,
-} = require("./defaults");
 
-const tokenFeature = (optionsArr) => {
+// Define a function to handle the token feature based on provided options
+const tokenFeature = async (optionsArr) => {
   switch (optionsArr[0]) {
     case "--help":
-      console.log("displays help for the token command");
+      // Write log to the file
+      logEE.logFile("tokenFeature", "info", `Access to the "--help" option`);
 
+      // displays help for the token command
+      await processTokenHelp(optionsArr.slice(1));
       break;
     case "--count":
+      // Write log to the file
+      logEE.logFile("tokenFeature", "info", `Access to the "--count" option`);
+
       // displays a count of the tokens created
-      (async () => {
-        console.log(await getTokensNum(allTokensFilePath));
-      })();
+      await processTokenCount(optionsArr.slice(1));
       break;
     case "--new":
-      // generates a token for a given username, saves tokens to the json file
-      const newTokenOptionsArr = optionsArr.slice(1);
+      // Write log to the file
+      logEE.logFile("tokenFeature", "info", `Access to the "--new" option`);
 
-      (async () => {
-        try {
-          // issue-#23: add functionality if "user-config.json" and "token-config.json" weren't initialized
-          const userTemplate = JSON.parse(await fetchFile(userCfgFilePath));
-          const tokenTemplate = JSON.parse(await fetchFile(tokenCfgFilePath));
-          const userTemplateKeysArr = Object.keys(userTemplate);
-
-          if (
-            newTokenOptionsArr.length == 0 ||
-            newTokenOptionsArr.length > userTemplateKeysArr.length
-          ) {
-            console.log("Invalid syntax");
-            return;
-          }
-
-          const newUserObj = createNewUserObj(
-            userTemplateKeysArr,
-            ...newTokenOptionsArr
-          );
-
-          const newTokenObj = createToken(
-            tokenFieldName,
-            newUserObj,
-            tokenTemplate,
-            tokenExpiresDays
-          );
-
-          const dataArr = await getAllTokensArr(allTokensFilePath);
-          const updatedDataArr = addToken(dataArr, tokenFieldName, newTokenObj);
-
-          await saveToken(allTokensFilePath, updatedDataArr);
-        } catch ({ name, message }) {
-          console.log(`${name}: ${message}`);
-        }
-      })();
+      // generates a token for a given data, saves tokens to the json file
+      await processTokenCreate(optionsArr.slice(1));
       break;
     case "--upd":
+      // Write log to the file
+      logEE.logFile("tokenFeature", "info", `Access to the "--upd" option`);
+
       // updates the json entry with...options...
-      const updTokenOptionsArr = optionsArr.slice(1);
-
-      if (
-        updTokenOptionsArr.length <= 1 ||
-        updTokenOptionsArr.length > 3 ||
-        !tokenUpdAliasMap.has(updTokenOptionsArr[0])
-      ) {
-        console.log("Invalid syntax");
-        return;
-      }
-
-      (async () => {
-        const dataArr = await getAllTokensArr(allTokensFilePath);
-
-        const updatedDataArr = updateToken(
-          dataArr,
-          tokenFieldName,
-          updTokenOptionsArr[1],
-          tokenUpdAliasMap.get(updTokenOptionsArr[0]),
-          updTokenOptionsArr[2]
-        );
-
-        await saveToken(allTokensFilePath, updatedDataArr);
-      })();
+      await processTokenUpdate(optionsArr.slice(1));
       break;
     case "--search":
-      console.log("FUNCTION: fetches a token for a given...options...");
+      // Write log to the file
+      logEE.logFile("tokenFeature", "info", `Access to the "--search" option`);
+
+      // fetches a token for a given...options...
+      await processTokenSearch(optionsArr.slice(1));
       break;
   }
 };
 
+// Export the "tokenFeature" function for use in other modules
 module.exports = {
   tokenFeature,
 };
