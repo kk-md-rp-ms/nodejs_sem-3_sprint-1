@@ -16,6 +16,7 @@ myapp init --cat      creates the config file with default settings
  * 12 Feb 2022, PJR, added createFiles() for init, config, and token views
  * 13 Oct 2022, PJR, re-hydrated project from the spring
  * 05 Oct 2023, PJR, altered for lecture prep
+ * 28 Oct 2023, MD, altered for Midterm sprint
  *************************/
 // Node.js common core global modules
 const fs = require("fs");

@@ -1,5 +1,6 @@
 // Import required functions/variables from built-in modules
 const { argv } = require("node:process");
+const fs = require("fs");
 
 // Import required functions/variables from custom modules
 const logEE = require("./log-emitter");
@@ -7,7 +8,7 @@ const { tokenFeature } = require("./tokenFeature");
 
 // ADDED MY MD
 const { initializeApp } = require("./init.js");
-// const { configApp } = require("./config.js");
+const { configApp } = require("./config.js");
 
 // Get command-line arguments, excluding the first two elements (node executable and script filename)
 const commandsArr = argv.slice(2);
@@ -38,7 +39,14 @@ switch (feature) {
     break;
   case "config":
   case "c":
-    logEE.logToFile("cli-init", "info", `Display the configuration file`);
+    logEE.logToFile("cli-config", "info", `Display the configuration file`);
     configApp();
     break;
+  case "--help":
+  case "--h":
+  default:
+    fs.readFile(__dirname + "/usage.txt", (error, data) => {
+      if (error) throw error;
+      console.log(data.toString());
+    });
 }

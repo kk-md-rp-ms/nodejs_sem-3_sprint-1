@@ -3,7 +3,7 @@ const chalk = require("chalk");
 
 // Define a variable for enabling or disabling developer mode
 // (controls the display of logs in the console)
-const flagDevMode = false;
+const flagDevMode = true;
 
 // Create functions/variables for log formatting in developer mode
 const logEvent = chalk.dim.cyan;
