@@ -19,7 +19,7 @@ switch (feature) {
   case "token":
   case "t":
     // Write log to the file
-    logEE.logFile("cli-token", "info", `Access to the "token" feature`);
+    logEE.logToFile("cli-token", "info", `Access to the "token" feature`);
 
     // If the feature is "token" or "t", call the "tokenFeature" function and pass the options
     (async () => {

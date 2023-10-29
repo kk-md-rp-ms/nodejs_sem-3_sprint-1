@@ -2,12 +2,13 @@
 const EventEmitter = require("node:events");
 
 // Import functions from custom module
-const { createLog, saveLog } = require("./utils-log");
+const { createDevLog, createLog, saveLog } = require("./utils-log");
+const { flagDevMode } = require("./defaults-dev-mode");
 
 // Create a custom LogEmitter class
 class LogEmitter extends EventEmitter {
   // create a method to trigger an event
-  logFile(event, level, message) {
+  logToFile(event, level, message) {
     this.emit("logFile", event, level, message);
   }
 }
@@ -22,6 +23,9 @@ logEE.on("logFile", async (event, level, message) => {
 
   // Save log entry to the log file
   await saveLog(log);
+
+  // Display log entry in the console if developer mode is active
+  flagDevMode && console.log(createDevLog(event, level, message));
 });
 
 // Export the LogEmitter instance
