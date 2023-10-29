@@ -23,9 +23,9 @@ const fetchJSONFile = async (...pathArgs) => {
 
     // Return the resulting data
     return data;
-  } catch ({ message }) {
+  } catch (err) {
     // Handle and log any errors that occur during file reading or parsing
-    logEE.logToFile("fetchJSONFile", "error", `${message}`);
+    logEE.logToFile("fetchJSONFile", "error", err.message);
   }
 };
 
@@ -46,9 +46,9 @@ const fetchTxtFile = async (...pathArgs) => {
     );
     // Return the resulting data
     return data;
-  } catch ({ message }) {
+  } catch (err) {
     // Handle and log any errors that occur during file reading
-    logEE.logToFile("fetchTxtFile", "error", `${message}`);
+    logEE.logToFile("fetchTxtFile", "error", err.message);
   }
 };
 
@@ -64,21 +64,23 @@ const createFolder = async (...pathArgs) => {
     // Write log to the file
     logEE.logToFile(
       "createFolder",
-      "info",
+      "success",
       `Folder: "${basename(path)}" was created successfully`
     );
-  } catch ({ message, code }) {
+  } catch (err) {
     // If the directory already exists, log a message
     // Handle and log other directory creation errors
-
-    if (code == "EEXIST") {
+    if (err.code == "EEXIST") {
       logEE.logToFile(
         "createFolder",
-        "warning",
+        "info",
         `Folder: "${basename(path)}" already exist`
       );
     } else {
-      logEE.logToFile("createFolder", "error", `${message}`);
+      logEE.logToFile("createFolder", "error", err.message);
+
+      // re-throw an error if occured
+      throw err;
     }
   }
 };
@@ -95,12 +97,15 @@ const createFile = async (content, ...pathArgs) => {
     // Write log to the file
     logEE.logToFile(
       "createFile",
-      "info",
+      "success",
       `File: "${basename(path)}" was created successfully`
     );
-  } catch ({ message }) {
+  } catch (err) {
     // Handle and log any errors that occur during file writing
-    logEE.logToFile("createFile", "error", `${message}`);
+    logEE.logToFile("createFile", "error", `${err.message}`);
+
+    // re-throw an error if occured
+    throw err;
   }
 };
 

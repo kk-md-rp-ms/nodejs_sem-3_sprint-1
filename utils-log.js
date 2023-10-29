@@ -56,12 +56,12 @@ const saveLog = async (log) => {
           `Folder: ${logSubFolder()} was created successfully`
         )
       );
-  } catch ({ message, code }) {
+  } catch (err) {
     // Display log entry in the console if developer mode is active
     if (flagDevMode) {
-      code == "EEXIST"
-        ? console.log(createDevLog("saveLog", "warning", `${message}`))
-        : console.log(createDevLog("saveLog", "error", `${message}`));
+      err.code == "EEXIST"
+        ? console.log(createDevLog("saveLog", "info", err.message))
+        : console.log(createDevLog("saveLog", "error", err.message));
     }
   }
 
@@ -69,18 +69,18 @@ const saveLog = async (log) => {
   try {
     await appendFile(logFile(), log);
 
+    // // Display log entry in the console if developer mode is active
+    // flagDevMode &&
+    //   console.log(
+    //     createDevLog(
+    //       "saveLog",
+    //       "success",
+    //       `log was successfully written to the ${logFile()}`
+    //     )
+    //   );
+  } catch (err) {
     // Display log entry in the console if developer mode is active
-    flagDevMode &&
-      console.log(
-        createDevLog(
-          "saveLog",
-          "success",
-          `log was successfully written to the ${logFile()}`
-        )
-      );
-  } catch ({ message }) {
-    // Display log entry in the console if developer mode is active
-    flagDevMode && console.log(createDevLog("saveLog", "error", `${message}`));
+    flagDevMode && console.log(createDevLog("saveLog", "error", err.message));
   }
 };
 
