@@ -5,6 +5,10 @@ const { argv } = require("node:process");
 const logEE = require("./log-emitter");
 const { tokenFeature } = require("./tokenFeature");
 
+// ADDED MY MD
+const { initializeApp } = require("./init.js");
+// const { configApp } = require("./config.js");
+
 // Get command-line arguments, excluding the first two elements (node executable and script filename)
 const commandsArr = argv.slice(2);
 
@@ -27,4 +31,14 @@ switch (feature) {
     })();
     break;
   // Other cases will be added soon
+  case "init":
+  case "i":
+    logEE.logToFile("cli-init", "info", `Initialize the app.`);
+    initializeApp();
+    break;
+  case "config":
+  case "c":
+    logEE.logToFile("cli-init", "info", `Display the configuration file`);
+    configApp();
+    break;
 }
