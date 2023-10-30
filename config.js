@@ -5,7 +5,7 @@ const myArgs = process.argv.slice(2);
 // load the logEE
 const logEE = require("./log-emitter");
 
-const { configjson } = require("./initTemplates");
+const { configjson } = require("./template");
 const { flagDevMode } = require("./defaults-dev-mode");
 
 function displayConfig() {
@@ -98,7 +98,7 @@ function configApp() {
     case "--help":
     case "--h":
     default:
-      fs.readFile(__dirname + "/views/config.txt", (error, data) => {
+      fs.readFile(__dirname + "/text/config.txt", (error, data) => {
         if (error) throw error;
         console.log(data.toString());
       });

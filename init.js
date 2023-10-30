@@ -27,8 +27,9 @@ const path = require("path");
 // load the logEvents module
 const logEE = require("./log-emitter");
 
-const { folders, configjson, usagetxt } = require("./initTemplates");
-const { flagDevMode } = require("./defaults-dev-mode");
+// Required variables.
+const { folderStructure, configjson, usagetxt } = require("./template");
+// const { flagDevMode } = require("./defaults-dev-mode");
 
 function createFolders() {
   if (flagDevMode) console.log("init.createFolders()");
@@ -38,7 +39,7 @@ function createFolders() {
     "All folders should be created."
   );
   let mkcount = 0;
-  folders.forEach((foldername) => {
+  folderStructure.forEach((foldername) => {
     try {
       if (!fs.existsSync(path.join(__dirname, foldername))) {
         fsPromises.mkdir(path.join(__dirname, foldername));
@@ -55,13 +56,18 @@ function createFolders() {
       "INFO",
       "All folders already existed."
     );
-  } else if (mkcount <= folders.length) {
+  } else if (mkcount <= folderStructure.length) {
     if (flagDevMode)
-      console.log(mkcount + " of " + folders.length + " folders were created.");
+      console.log(
+        mkcount + " of " + folderStructure.length + " folders were created."
+      );
     logEE.logToFile(
       "init.createFolders()",
       "info",
-      mkcount + " of " + folders.length + " folders needed to be created."
+      mkcount +
+        " of " +
+        folderStructure.length +
+        " folders needed to be created."
     );
   } else {
     if (flagDevMode) console.log("All folders successfully created.");
@@ -104,20 +110,20 @@ function createFiles() {
       );
     }
 
-    if (!fs.existsSync(path.join(__dirname, "./views/usage.txt"))) {
-      fs.writeFile("./views/usage.txt", usagetxt, (err) => {
+    if (!fs.existsSync(path.join(__dirname, "./text/usage.txt"))) {
+      fs.writeFile("./text/usage.txt", usagetxt, (err) => {
         if (flagDevMode) console.log("Data written to usage.txt file");
         logEE.logToFile(
           "init.createFiles()",
           "info",
-          "./views/usage.txt successfully created."
+          "./text/usage.txt successfully created."
         );
       });
     } else {
       logEE.logToFile(
         "init.createFiles()",
         "info",
-        "./views/usage.txt already exists."
+        "./text/usage.txt already exists."
       );
     }
   } catch (err) {
@@ -151,7 +157,7 @@ function initializeApp() {
     case "--help":
     case "--h":
     default:
-      fs.readFile(__dirname + "/views/init.txt", (error, data) => {
+      fs.readFile(__dirname + "/text/init.txt", (error, data) => {
         if (error) throw error;
         console.log(data.toString());
       });

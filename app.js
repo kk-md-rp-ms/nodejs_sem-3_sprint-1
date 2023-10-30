@@ -45,7 +45,7 @@ switch (feature) {
   case "--help":
   case "--h":
   default:
-    fs.readFile(__dirname + "/usage.txt", (error, data) => {
+    fs.readFile(__dirname + "/text/usage.txt", (error, data) => {
       if (error) throw error;
       console.log(data.toString());
     });

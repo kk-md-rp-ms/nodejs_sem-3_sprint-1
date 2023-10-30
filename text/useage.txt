@@ -1,6 +1,4 @@
-
-
-myapp <command> <option>
+app <command> <option>
 
 Usage:
 
