@@ -3,6 +3,7 @@ const { argv } = require("node:process");
 
 // Import required functions/variables from custom modules
 const logEE = require("./log-emitter");
+const { initFeature } = require("./initFeature");
 const { tokenFeature } = require("./tokenFeature");
 
 // Get command-line arguments, excluding the first two elements (node executable and script filename)
@@ -16,6 +17,12 @@ const featureOptions = commandsArr.slice(1);
 
 // Use a switch statement to execute code based on the specified feature
 switch (feature) {
+  case "init":
+  case "i":
+    (async () => {
+      await initFeature(featureOptions);
+    })();
+    break;
   case "token":
   case "t":
     // Write log to the file

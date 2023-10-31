@@ -1,6 +1,15 @@
 // Folder structure created by "init" feature
 exports.folderStructure = ["views", "logs", "json", "txt"];
 
+exports.configTemplate = {
+  name: "AppConfigCLI",
+  version: "1.0.0",
+  description: "The Command Line Interface (CLI) for the App",
+  main: "app.js",
+  superuser: "admin",
+  database: "exampledb",
+};
+
 // User template used to generate a new token
 exports.userTemplate = {
   username: null,
