@@ -56,6 +56,7 @@ const fetchTxtFile = async (...pathArgs) => {
 const createFolder = async (...pathArgs) => {
   // Generate the full folder path by joining the arguments with the current directory
   const path = join(__dirname, ...pathArgs);
+  let creationResultValue = 0;
 
   try {
     // Create the directory, and if it already exists, handle it gracefully
@@ -67,9 +68,10 @@ const createFolder = async (...pathArgs) => {
       "success",
       `Folder: "${basename(path)}" was created successfully`
     );
+
+    creationResultValue = 1;
   } catch (err) {
     // If the directory already exists, log a message
-    // Handle and log other directory creation errors
     if (err.code == "EEXIST") {
       logEE.logToFile(
         "createFolder",
@@ -77,11 +79,14 @@ const createFolder = async (...pathArgs) => {
         `Folder: "${basename(path)}" already exist`
       );
     } else {
+      // Handle and log other directory creation errors
       logEE.logToFile("createFolder", "error", err.message);
 
       // re-throw an error if occured
       throw err;
     }
+  } finally {
+    return creationResultValue;
   }
 };
 
