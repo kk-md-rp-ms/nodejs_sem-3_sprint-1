@@ -3,8 +3,8 @@ const logEE = require("./log-emitter");
 const {
   processInitHelp,
   processInitAll,
-  processInitCat,
   processInitMk,
+  processInitCat,
 } = require("./utils-init");
 
 // Define a function to handle the init feature based on provided options
@@ -21,8 +21,22 @@ const initFeature = async (optionsArr) => {
       // Write log to the file
       logEE.logToFile("initFeature", "info", `Access to the "--all" option`);
 
-      // displays help for the init command
+      // Run the function to initialize required folders and files
       await processInitAll(optionsArr.slice(1));
+      break;
+    case "--mk":
+      // Write log to the file
+      logEE.logToFile("initFeature", "info", `Access to the "--mk" option`);
+
+      // Run the function to initialize required folders
+      await processInitMk(optionsArr.slice(1));
+      break;
+    case "--cat":
+      // Write log to the file
+      logEE.logToFile("initFeature", "info", `Access to the "--cat" option`);
+
+      // Run the function to initialize required files
+      await processInitCat(optionsArr.slice(1));
       break;
   }
 };
