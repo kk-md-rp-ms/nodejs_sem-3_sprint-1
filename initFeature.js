@@ -1,5 +1,11 @@
+// Import required functions/variables from built-in modules
+const { dirname } = require("node:path");
+
 // Import required functions/variables from custom modules
 const logEE = require("./log-emitter");
+const { initHelpFilePath, fileContentMap } = require("./defaults");
+const { createFolder, createFile } = require("./utils-fs");
+
 const {
   processInitHelp,
   processInitAll,
@@ -9,14 +15,16 @@ const {
 
 // Define a function to handle the init feature based on provided options
 const initFeature = async (optionsArr) => {
-  switch (optionsArr[0]) {
-    case "--help":
-      // Write log to the file
-      logEE.logToFile("initFeature", "info", `Access to the "--help" option`);
+  // Create folder and init help file as soon as initFeature was accessed
+  try {
+    createFolder(dirname(initHelpFilePath));
+    createFile(fileContentMap.get(initHelpFilePath), initHelpFilePath);
+  } catch (err) {
+    // Handle and log any errors that occur during folder/file creation
+    logEE.logToFile("initFeature", "error", err.message);
+  }
 
-      // displays help for the init command
-      await processInitHelp(optionsArr.slice(1));
-      break;
+  switch (optionsArr[0]) {
     case "--all":
       // Write log to the file
       logEE.logToFile("initFeature", "info", `Access to the "--all" option`);
@@ -37,6 +45,14 @@ const initFeature = async (optionsArr) => {
 
       // Run the function to initialize required files
       await processInitCat(optionsArr.slice(1));
+      break;
+    case "--help":
+    default:
+      // Write log to the file
+      logEE.logToFile("initFeature", "info", `Access to the "--help" option`);
+
+      // displays help for the init command
+      await processInitHelp(optionsArr.slice(1));
       break;
   }
 };
