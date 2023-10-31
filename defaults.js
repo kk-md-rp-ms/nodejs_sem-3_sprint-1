@@ -60,7 +60,7 @@ const tokenSearchAliasMap = new Map([
 ]);
 
 // Folder structure for "init" feature
-const folderStructure = new Set([
+const folderStructureSet = new Set([
   "views",
   logFolder,
   cfgFolder,
@@ -85,5 +85,5 @@ module.exports = {
   logFile,
   tokenUpdAliasMap,
   tokenSearchAliasMap,
-  folderStructure,
+  folderStructureSet,
 };
