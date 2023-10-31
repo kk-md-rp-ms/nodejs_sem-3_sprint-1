@@ -2,8 +2,9 @@
 const logEE = require("./log-emitter");
 const {
   processInitHelp,
-  processInitFiles,
-  processInitFolders,
+  processInitAll,
+  processInitCat,
+  processInitMk,
 } = require("./utils-init");
 
 // Define a function to handle the init feature based on provided options
@@ -15,6 +16,13 @@ const initFeature = async (optionsArr) => {
 
       // displays help for the init command
       await processInitHelp(optionsArr.slice(1));
+      break;
+    case "--all":
+      // Write log to the file
+      logEE.logToFile("initFeature", "info", `Access to the "--all" option`);
+
+      // displays help for the init command
+      await processInitAll(optionsArr.slice(1));
       break;
   }
 };
