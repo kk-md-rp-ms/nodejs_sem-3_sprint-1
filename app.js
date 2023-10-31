@@ -3,6 +3,7 @@ const { argv } = require("node:process");
 
 // Import required functions/variables from custom modules
 const logEE = require("./log-emitter");
+const { initFeature } = require("./initFeature");
 const { tokenFeature } = require("./tokenFeature");
 
 // Get command-line arguments, excluding the first two elements (node executable and script filename)
