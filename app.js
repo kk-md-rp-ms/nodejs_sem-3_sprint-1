@@ -16,6 +16,12 @@ const featureOptions = commandsArr.slice(1);
 
 // Use a switch statement to execute code based on the specified feature
 switch (feature) {
+  case "init":
+  case "i":
+    (async () => {
+      await initFeature(featureOptions);
+    })();
+    break;
   case "token":
   case "t":
     // Write log to the file
