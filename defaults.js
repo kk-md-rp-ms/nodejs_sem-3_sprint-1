@@ -4,9 +4,6 @@ const { join } = require("node:path");
 // Import external packages
 const { format } = require("date-fns");
 
-// Folder structure created by "init" feature
-const folderStructure = ["views", "logs", "json", "txt"];
-
 // Define and initialize various file paths, folders, and configuration values
 const notFoundMessage = "File not found";
 
@@ -62,9 +59,17 @@ const tokenSearchAliasMap = new Map([
   ["u", "username"],
 ]);
 
+// Folder structure created by "init" feature
+const folderStructure = new Set([
+  "views",
+  logFolder,
+  cfgFolder,
+  tokenFolder,
+  helpFolder,
+]);
+
 // Export all the defined variables for use in other modules
 module.exports = {
-  folderStructure,
   notFoundMessage,
   initHelpFilePath,
   cfgHelpFilePath,
@@ -80,4 +85,5 @@ module.exports = {
   logFile,
   tokenUpdAliasMap,
   tokenSearchAliasMap,
+  folderStructure,
 };
