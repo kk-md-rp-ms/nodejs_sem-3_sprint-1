@@ -73,7 +73,7 @@ const tokenSearchAliasMap = new Map([
 const fileContentMap = new Map([
   [initHelpFilePath, helpInitFeature],
   [cfgHelpFilePath, helpCfgFeature],
-  [tokenHelpFile, helpTokenFeature],
+  [tokenHelpFilePath, helpTokenFeature],
   [userCfgFilePath, userTemplate],
   [tokenCfgFilePath, tokenTemplate],
   [allTokensFilePath, allTokensTemplate],
