@@ -22,6 +22,8 @@ exports.tokenTemplate = {
   expires: null,
 };
 
+exports.allTokensTemplate = [];
+
 // Define variables for "--help" option.
 // Variables will be used by "init" feature to create help files in "txt" folder
 
