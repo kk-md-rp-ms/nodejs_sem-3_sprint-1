@@ -73,9 +73,9 @@ const processInitMk = async (optionsArr) => {
     // Counter to keep track of the number of folders created
     let folderCount = 0;
 
-    // Iterate over the `folderStructure` array to create folders
+    // Iterate over the "folderStructure" set to create folders
     for (const item of folderStructure) {
-      folderCount += await createFolder(item);
+      folderCount += (await createFolder(item)) || 0;
     }
 
     // Set the feedbackMessage and logStatusFlag

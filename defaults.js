@@ -59,7 +59,7 @@ const tokenSearchAliasMap = new Map([
   ["u", "username"],
 ]);
 
-// Folder structure created by "init" feature
+// Folder structure for "init" feature
 const folderStructure = new Set([
   "views",
   logFolder,
