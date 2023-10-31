@@ -4,6 +4,16 @@ const { join } = require("node:path");
 // Import external packages
 const { format } = require("date-fns");
 
+// Import required functions/variables from built-in modules
+const {
+  helpInitFeature,
+  helpCfgFeature,
+  helpTokenFeature,
+  userTemplate,
+  tokenTemplate,
+  allTokensTemplate,
+} = require("./template.js");
+
 // Define and initialize various file paths, folders, and configuration values
 const notFoundMessage = "File not found";
 
@@ -59,6 +69,16 @@ const tokenSearchAliasMap = new Map([
   ["u", "username"],
 ]);
 
+// Map to connect file names with its content
+const fileContentMap = new Map([
+  [initHelpFilePath, helpInitFeature],
+  [cfgHelpFilePath, helpCfgFeature],
+  [tokenHelpFile, helpTokenFeature],
+  [userCfgFilePath, userTemplate],
+  [tokenCfgFilePath, tokenTemplate],
+  [allTokensFilePath, allTokensTemplate],
+]);
+
 // Folder structure for "init" feature
 const folderStructureSet = new Set([
   "views",
@@ -85,5 +105,6 @@ module.exports = {
   logFile,
   tokenUpdAliasMap,
   tokenSearchAliasMap,
+  fileContentMap,
   folderStructureSet,
 };
