@@ -102,6 +102,8 @@ const createFile = async (content, ...pathArgs) => {
       "success",
       `File: "${basename(path)}" was created successfully`
     );
+
+    return 1;
   } catch (err) {
     // Handle and log any errors that occur during file writing
     logEE.logToFile("createFile", "error", `${err.message}`);
