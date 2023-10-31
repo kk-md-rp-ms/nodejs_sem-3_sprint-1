@@ -3,8 +3,8 @@ const logEE = require("./log-emitter");
 const {
   processTokenHelp,
   processTokenCount,
-  processTokenCreate,
-  processTokenUpdate,
+  processTokenNew,
+  processTokenUpd,
   processTokenSearch,
 } = require("./utils-token");
 
@@ -30,14 +30,14 @@ const tokenFeature = async (optionsArr) => {
       logEE.logToFile("tokenFeature", "info", `Access to the "--new" option`);
 
       // generates a token for a given data, saves tokens to the json file
-      await processTokenCreate(optionsArr.slice(1));
+      await processTokenNew(optionsArr.slice(1));
       break;
     case "--upd":
       // Write log to the file
       logEE.logToFile("tokenFeature", "info", `Access to the "--upd" option`);
 
       // updates the json entry with...options...
-      await processTokenUpdate(optionsArr.slice(1));
+      await processTokenUpd(optionsArr.slice(1));
       break;
     case "--search":
       // Write log to the file
