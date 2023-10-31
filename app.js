@@ -19,6 +19,10 @@ const featureOptions = commandsArr.slice(1);
 switch (feature) {
   case "init":
   case "i":
+    // Write log to the file
+    logEE.logToFile("cli-init", "info", `Access to the "init" feature`);
+
+    // If the feature is "init" or "i", call the "initFeature" function and pass the options
     (async () => {
       await initFeature(featureOptions);
     })();
