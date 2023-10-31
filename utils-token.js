@@ -284,7 +284,7 @@ const processTokenCount = async (optionsArr) => {
 };
 
 // Functions to process the token option "--new"
-const processTokenCreate = async (optionsArr) => {
+const processTokenNew = async (optionsArr) => {
   // Fetch configured templates for creating a new token from the specified files
   // issue-#23: add functionality if "user-config.json" and "token-config.json" weren't initialized
   const userTemplate = (await fetchJSONFile(userCfgFilePath)) || {};
@@ -300,7 +300,7 @@ const processTokenCreate = async (optionsArr) => {
 
     // Write log to the file
     logEE.logToFile(
-      "processTokenCreate",
+      "processTokenNew",
       "error",
       "User configuration file not found"
     );
@@ -313,7 +313,7 @@ const processTokenCreate = async (optionsArr) => {
     console.log("Invalid syntax");
 
     // Write log to the file
-    logEE.logToFile("processTokenCreate", "warning", "Invalid syntax");
+    logEE.logToFile("processTokenNew", "warning", "Invalid syntax");
     return;
   }
 
@@ -341,14 +341,14 @@ const processTokenCreate = async (optionsArr) => {
 };
 
 // Functions to process the token option "--upd"
-const processTokenUpdate = async (optionsArr) => {
+const processTokenUpd = async (optionsArr) => {
   // Check if the arguments for updating a token are valid
   if (optionsArr.length != 3 || !tokenUpdAliasMap.has(optionsArr[0])) {
     // Provide feedback
     console.log("Invalid syntax");
 
     // Write log to the file
-    logEE.logToFile("processTokenUpdate", "warning", "Invalid syntax");
+    logEE.logToFile("processTokenUpd", "warning", "Invalid syntax");
     return;
   }
 
@@ -405,7 +405,7 @@ const processTokenSearch = async (optionsArr) => {
 module.exports = {
   processTokenHelp,
   processTokenCount,
-  processTokenCreate,
-  processTokenUpdate,
+  processTokenNew,
+  processTokenUpd,
   processTokenSearch,
 };
