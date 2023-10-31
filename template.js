@@ -1,6 +1,4 @@
-// Folder structure created by "init" feature
-exports.folderStructure = ["views", "logs", "json", "txt"];
-
+// Config template
 exports.configTemplate = {
   name: "AppConfigCLI",
   version: "1.0.0",
@@ -23,6 +21,8 @@ exports.tokenTemplate = {
   created: null,
   expires: null,
 };
+
+exports.allTokensTemplate = [];
 
 // Define variables for "--help" option.
 // Variables will be used by "init" feature to create help files in "txt" folder

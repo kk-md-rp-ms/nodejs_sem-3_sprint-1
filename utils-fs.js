@@ -67,9 +67,10 @@ const createFolder = async (...pathArgs) => {
       "success",
       `Folder: "${basename(path)}" was created successfully`
     );
+
+    return 1;
   } catch (err) {
     // If the directory already exists, log a message
-    // Handle and log other directory creation errors
     if (err.code == "EEXIST") {
       logEE.logToFile(
         "createFolder",
@@ -77,6 +78,7 @@ const createFolder = async (...pathArgs) => {
         `Folder: "${basename(path)}" already exist`
       );
     } else {
+      // Handle and log other directory creation errors
       logEE.logToFile("createFolder", "error", err.message);
 
       // re-throw an error if occured
@@ -100,6 +102,8 @@ const createFile = async (content, ...pathArgs) => {
       "success",
       `File: "${basename(path)}" was created successfully`
     );
+
+    return 1;
   } catch (err) {
     // Handle and log any errors that occur during file writing
     logEE.logToFile("createFile", "error", `${err.message}`);
