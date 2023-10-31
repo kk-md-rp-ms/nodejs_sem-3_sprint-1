@@ -1,6 +1,4 @@
-// Folder structure created by "init" feature
-exports.folderStructure = ["views", "logs", "json", "txt"];
-
+// Config template
 exports.configTemplate = {
   name: "AppConfigCLI",
   version: "1.0.0",
