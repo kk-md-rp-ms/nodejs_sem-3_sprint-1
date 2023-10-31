@@ -15,7 +15,7 @@ const {
 
 // Define a function to handle the init feature based on provided options
 const initFeature = async (optionsArr) => {
-  // Create folder and init help file as soon as initFeature was accessed
+  // Create the init help folder and file as soon as the initFeature is accessed
   try {
     createFolder(dirname(initHelpFilePath));
     createFile(fileContentMap.get(initHelpFilePath), initHelpFilePath);
