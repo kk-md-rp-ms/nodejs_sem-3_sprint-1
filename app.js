@@ -5,6 +5,7 @@ const { argv } = require("node:process");
 const logEE = require("./log-emitter");
 const { initFeature } = require("./initFeature");
 const { tokenFeature } = require("./tokenFeature");
+const { configFeature } = require("./configFeature");
 
 // Get command-line arguments, excluding the first two elements (node executable and script filename)
 const commandsArr = argv.slice(2);
@@ -25,6 +26,16 @@ switch (feature) {
     // If the feature is "init" or "i", call the "initFeature" function and pass the options
     (async () => {
       await initFeature(featureOptions);
+    })();
+    break;
+  case "config":
+  case "c":
+    // Write log to the file
+    logEE.logToFile("cli-config", "info", `Access to the "config" feature`);
+
+    // If the feature is "config" or "c", call the "configFeature" function and pass the options
+    (async () => {
+      await configFeature(featureOptions);
     })();
     break;
   case "token":
