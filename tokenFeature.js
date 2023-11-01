@@ -14,10 +14,15 @@ const {
 // Define a function to handle the token feature based on provided options
 const tokenFeature = async (optionsArr) => {
   // Create the token help folder and file as soon as the tokenFeature is accessed
-  await createFolderWithFile(
-    tokenHelpFilePath,
-    fileContentMap.get(tokenHelpFilePath)
-  );
+  try {
+    await createFolderWithFile(
+      tokenHelpFilePath,
+      fileContentMap.get(tokenHelpFilePath)
+    );
+  } catch (err) {
+    // Handle and log any errors that occur during folder/file creation
+    logEE.logToFile("tokenFeature", "error", err.message);
+  }
 
   switch (optionsArr[0]) {
     case "--count":

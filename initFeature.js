@@ -13,10 +13,15 @@ const {
 // Define a function to handle the init feature based on provided options
 const initFeature = async (optionsArr) => {
   // Create the init help folder and file as soon as the initFeature is accessed
-  await createFolderWithFile(
-    initHelpFilePath,
-    fileContentMap.get(initHelpFilePath)
-  );
+  try {
+    await createFolderWithFile(
+      initHelpFilePath,
+      fileContentMap.get(initHelpFilePath)
+    );
+  } catch (err) {
+    // Handle and log any errors that occur during folder/file creation
+    logEE.logToFile("initFeature", "error", err.message);
+  }
 
   switch (optionsArr[0]) {
     case "--all":

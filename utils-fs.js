@@ -121,6 +121,9 @@ const createFolderWithFile = async (path, content) => {
   } catch (err) {
     // Handle and log any errors that occur during folder/file creation
     logEE.logToFile("createFolderWithFile", "error", err.message);
+
+    // re-throw an error if occured
+    throw err;
   }
 };
 

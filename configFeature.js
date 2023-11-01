@@ -12,10 +12,15 @@ const {
 // Define a function to handle the config feature based on provided options
 const configFeature = async (optionsArr) => {
   // Create the config help folder and file as soon as the configFeature is accessed
-  await createFolderWithFile(
-    cfgHelpFilePath,
-    fileContentMap.get(cfgHelpFilePath)
-  );
+  try {
+    await createFolderWithFile(
+      cfgHelpFilePath,
+      fileContentMap.get(cfgHelpFilePath)
+    );
+  } catch (err) {
+    // Handle and log any errors that occur during folder/file creation
+    logEE.logToFile("configFeature", "error", err.message);
+  }
 
   switch (optionsArr[0]) {
     case "--show":

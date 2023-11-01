@@ -28,10 +28,15 @@ const featureOptions = commandsArr.slice(1);
   );
 
   // Create the app help folder and file as soon as the app is run
-  await createFolderWithFile(
-    appHelpFilePath,
-    fileContentMap.get(appHelpFilePath)
-  );
+  try {
+    await createFolderWithFile(
+      appHelpFilePath,
+      fileContentMap.get(appHelpFilePath)
+    );
+  } catch (err) {
+    // Handle and log any errors that occur during folder/file creation
+    logEE.logToFile("app", "error", err.message);
+  }
 
   // Use a switch statement to execute code based on the specified feature
   switch (feature) {
