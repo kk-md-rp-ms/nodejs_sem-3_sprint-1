@@ -20,7 +20,14 @@ const feature = commandsArr[0];
 const featureOptions = commandsArr.slice(1);
 
 (async () => {
-  // Create the app help folder and file as soon as the app is ran
+  // Write log to the file
+  logEE.logToFile(
+    "cli-app",
+    "info",
+    `Application is accessed and running successfully`
+  );
+
+  // Create the app help folder and file as soon as the app is run
   await createFolderWithFile(
     appHelpFilePath,
     fileContentMap.get(appHelpFilePath)
