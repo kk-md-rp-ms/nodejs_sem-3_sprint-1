@@ -116,8 +116,8 @@ const createFile = async (content, ...pathArgs) => {
 // Define a function to create folder and file in it
 const createFolderWithFile = async (path, content) => {
   try {
-    createFolder(dirname(path));
-    createFile(content, path);
+    await createFolder(dirname(path));
+    await createFile(content, path);
   } catch (err) {
     // Handle and log any errors that occur during folder/file creation
     logEE.logToFile("createFolderWithFile", "error", err.message);
