@@ -1,5 +1,11 @@
+// Import required functions/variables from built-in modules
+const { dirname } = require("node:path");
+
 // Import required functions/variables from custom modules
 const logEE = require("./log-emitter");
+const { tokenHelpFilePath, fileContentMap } = require("./defaults");
+const { createFolder, createFile } = require("./utils-fs");
+
 const {
   processTokenHelp,
   processTokenCount,
@@ -10,14 +16,16 @@ const {
 
 // Define a function to handle the token feature based on provided options
 const tokenFeature = async (optionsArr) => {
-  switch (optionsArr[0]) {
-    case "--help":
-      // Write log to the file
-      logEE.logToFile("tokenFeature", "info", `Access to the "--help" option`);
+  // Create the token help folder and file as soon as the tokenFeature is accessed
+  try {
+    createFolder(dirname(tokenHelpFilePath));
+    createFile(fileContentMap.get(tokenHelpFilePath), tokenHelpFilePath);
+  } catch (err) {
+    // Handle and log any errors that occur during folder/file creation
+    logEE.logToFile("tokenFeature", "error", err.message);
+  }
 
-      // displays help for the token command
-      await processTokenHelp(optionsArr.slice(1));
-      break;
+  switch (optionsArr[0]) {
     case "--count":
       // Write log to the file
       logEE.logToFile("tokenFeature", "info", `Access to the "--count" option`);
@@ -49,6 +57,14 @@ const tokenFeature = async (optionsArr) => {
 
       // fetches a token for a given...options...
       await processTokenSearch(optionsArr.slice(1));
+      break;
+    case "--help":
+    default:
+      // Write log to the file
+      logEE.logToFile("tokenFeature", "info", `Access to the "--help" option`);
+
+      // displays help for the token command
+      await processTokenHelp(optionsArr.slice(1));
       break;
   }
 };
