@@ -1,3 +1,6 @@
+// Import required functions/variables from built-in modules
+const { basename } = require("node:path");
+
 // Import required functions/variables from custom modules
 const logEE = require("./log-emitter");
 const { notFoundMessage, appHelpFilePath } = require("./defaults");
@@ -23,8 +26,16 @@ const helpFeature = async (optionsArr) => {
 
   // Write log to the file
   data !== notFoundMessage
-    ? logEE.logToFile("helpFeature", "success", `"help" file was displayed`)
-    : logEE.logToFile("helpFeature", "error", `"help" file not found`);
+    ? logEE.logToFile(
+        "helpFeature",
+        "success",
+        `"${basename(appHelpFilePath)}" file was displayed`
+      )
+    : logEE.logToFile(
+        "helpFeature",
+        "error",
+        `"${basename(appHelpFilePath)}" file not found`
+      );
 };
 
 // Export all the defined variables for use in other modules

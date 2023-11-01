@@ -1,3 +1,6 @@
+// Import required functions/variables from built-in modules
+const { basename } = require("node:path");
+
 // Import required functions/variables from custom modules
 const logEE = require("./log-emitter");
 const {
@@ -38,9 +41,73 @@ const processCfgShow = async (optionsArr) => {
     ? logEE.logToFile(
         "processCfgShow",
         "success",
-        `"config" file was displayed`
+        `"${basename(appCfgFilePath)}" file was displayed`
       )
-    : logEE.logToFile("processCfgShow", "error", `"config" file not found`);
+    : logEE.logToFile(
+        "processCfgShow",
+        "error",
+        `"${basename(appCfgFilePath)}" file not found`
+      );
+};
+
+// Function to process the config option "--new"
+const processCfgNew = async (optionsArr) => {
+  // Check if the arguments for the new option are valid
+  if (optionsArr.length != 3 || !cfgOptionPathMap.has(optionsArr[0])) {
+    // Provide feedback
+    console.log("Invalid syntax");
+
+    // Write log to the file
+    logEE.logToFile("processCfgNew", "warning", "Invalid syntax");
+    return;
+  }
+
+  // Set the path variable
+  const path = cfgOptionPathMap.get(optionsArr[0]);
+
+  // Read the config text from the specified file
+  let data = (await fetchJSONFile(path)) || notFoundMessage;
+
+  if (data === notFoundMessage) {
+    // Provide feedback
+    console.log(data);
+
+    // Write log to the file
+    logEE.logToFile(
+      "processCfgNew",
+      "error",
+      `"${basename(path)}" file not found`
+    );
+    return;
+  }
+
+  // Add a new attribute or update it if it already exists in the fetched data
+  data[optionsArr[1]] = optionsArr[2];
+
+  // Initialize variable to track the status of folder and file creation
+  let logStatusFlag = false;
+
+  // Create the config folder and file specified by the given path
+  try {
+    await createFolderWithFile(path, JSON.stringify(data, null, 2));
+
+    // Set the feedbackMessage and logStatusFlag
+    feedbackMessage = `Success. The field \"${optionsArr[1]}\" and the data \"${optionsArr[2]}\" has been successfully added to the file`;
+    logStatusFlag = true;
+  } catch (err) {
+    // If an error occurs during folder creation, capture the error message
+    feedbackMessage = err.message;
+  }
+
+  // Provide feedback
+  console.log(feedbackMessage);
+
+  // Write log to the file
+  logEE.logToFile(
+    "processCfgNew",
+    logStatusFlag ? "success" : "error",
+    feedbackMessage
+  );
 };
 
 // Function to process the config option "--reset"
@@ -110,7 +177,11 @@ const processCfgSet = async (optionsArr) => {
     console.log(data);
 
     // Write log to the file
-    logEE.logToFile("processCfgSet", "error", `"config" file not found`);
+    logEE.logToFile(
+      "processCfgSet",
+      "error",
+      `"${basename(path)}" file not found`
+    );
     return;
   }
 
@@ -152,6 +223,7 @@ const processCfgSet = async (optionsArr) => {
   try {
     await createFolderWithFile(path, JSON.stringify(data, null, 2));
 
+    // Set the logStatusFlag
     logStatusFlag = true;
   } catch (err) {
     // If an error occurs during folder creation, capture the error message
@@ -189,13 +261,22 @@ const processCfgHelp = async (optionsArr) => {
 
   // Write log to the file
   data !== notFoundMessage
-    ? logEE.logToFile("processCfgHelp", "success", `"help" file was displayed`)
-    : logEE.logToFile("processCfgHelp", "error", `"help" file not found`);
+    ? logEE.logToFile(
+        "processCfgHelp",
+        "success",
+        `"${basename(cfgHelpFilePath)}" file was displayed`
+      )
+    : logEE.logToFile(
+        "processCfgHelp",
+        "error",
+        `"${basename(cfgHelpFilePath)}" file not found`
+      );
 };
 
 // Export all the defined variables for use in other modules
 module.exports = {
   processCfgShow,
+  processCfgNew,
   processCfgReset,
   processCfgSet,
   processCfgHelp,
