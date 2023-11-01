@@ -43,6 +43,11 @@ const processCfgShow = async (optionsArr) => {
     : logEE.logToFile("processCfgShow", "error", `"config" file not found`);
 };
 
+// Function to process the config option "--new"
+const processCfgNew = async (optionsArr) => {
+  console.log("Hello I am a NEW ATRIBUTE");
+};
+
 // Function to process the config option "--reset"
 const processCfgReset = async (optionsArr) => {
   // Check if the arguments for the reset option are valid
@@ -196,6 +201,7 @@ const processCfgHelp = async (optionsArr) => {
 // Export all the defined variables for use in other modules
 module.exports = {
   processCfgShow,
+  processCfgNew,
   processCfgReset,
   processCfgSet,
   processCfgHelp,

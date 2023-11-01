@@ -5,6 +5,7 @@ const { createFolderWithFile } = require("./utils-fs");
 
 const {
   processCfgShow,
+  processCfgNew,
   processCfgReset,
   processCfgSet,
   processCfgHelp,
@@ -30,6 +31,13 @@ const configFeature = async (optionsArr) => {
 
       // Display a list of the current config settings
       await processCfgShow(optionsArr.slice(1));
+      break;
+    case "--new":
+      // Write log to the file
+      logEE.logToFile("configFeature", "info", `Access to the "--new" option`);
+
+      // Add a new attribute to the specified config file
+      await processCfgNew(optionsArr.slice(1));
       break;
     case "--reset":
       // Write log to the file
