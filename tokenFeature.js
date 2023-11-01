@@ -63,7 +63,7 @@ const tokenFeature = async (optionsArr) => {
       // Write log to the file
       logEE.logToFile("tokenFeature", "info", `Access to the "--help" option`);
 
-      // displays help for the token command
+      // Display help for the token command
       await processTokenHelp(optionsArr.slice(1));
       break;
   }

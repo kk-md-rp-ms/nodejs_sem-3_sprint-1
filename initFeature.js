@@ -51,7 +51,7 @@ const initFeature = async (optionsArr) => {
       // Write log to the file
       logEE.logToFile("initFeature", "info", `Access to the "--help" option`);
 
-      // displays help for the init command
+      // Display help for the init command
       await processInitHelp(optionsArr.slice(1));
       break;
   }
