@@ -4,10 +4,10 @@ const { initHelpFilePath, fileContentMap } = require("./defaults");
 const { createFolderWithFile } = require("./utils-fs");
 
 const {
-  processInitHelp,
   processInitAll,
   processInitMk,
   processInitCat,
+  processInitHelp,
 } = require("./utils-init");
 
 // Define a function to handle the init feature based on provided options
