@@ -45,7 +45,58 @@ const processCfgShow = async (optionsArr) => {
 
 // Function to process the config option "--new"
 const processCfgNew = async (optionsArr) => {
-  console.log("Hello I am a NEW ATRIBUTE");
+  // Check if the arguments for the new option are valid
+  if (optionsArr.length != 3 || !cfgOptionPathMap.has(optionsArr[0])) {
+    // Provide feedback
+    console.log("Invalid syntax");
+
+    // Write log to the file
+    logEE.logToFile("processCfgNew", "warning", "Invalid syntax");
+    return;
+  }
+
+  // Set the path variable
+  const path = cfgOptionPathMap.get(optionsArr[0]);
+
+  // Read the config text from the specified file
+  let data = (await fetchJSONFile(path)) || notFoundMessage;
+
+  if (data === notFoundMessage) {
+    // Provide feedback
+    console.log(data);
+
+    // Write log to the file
+    logEE.logToFile("processCfgNew", "error", `"config" file not found`);
+    return;
+  }
+
+  // Add a new attribute or update it if it already exists in the fetched data
+  data[optionsArr[1]] = optionsArr[2];
+
+  // Initialize variable to track the status of folder and file creation
+  let logStatusFlag = false;
+
+  // Create the config folder and file specified by the given path
+  try {
+    await createFolderWithFile(path, JSON.stringify(data, null, 2));
+
+    // Set the feedbackMessage and logStatusFlag
+    feedbackMessage = `Success. The field \"${optionsArr[1]}\" and the data \"${optionsArr[2]}\" has been successfully added to the file`;
+    logStatusFlag = true;
+  } catch (err) {
+    // If an error occurs during folder creation, capture the error message
+    feedbackMessage = err.message;
+  }
+
+  // Provide feedback
+  console.log(feedbackMessage);
+
+  // Write log to the file
+  logEE.logToFile(
+    "processCfgNew",
+    logStatusFlag ? "success" : "error",
+    feedbackMessage
+  );
 };
 
 // Function to process the config option "--reset"
@@ -157,6 +208,7 @@ const processCfgSet = async (optionsArr) => {
   try {
     await createFolderWithFile(path, JSON.stringify(data, null, 2));
 
+    // Set the logStatusFlag
     logStatusFlag = true;
   } catch (err) {
     // If an error occurs during folder creation, capture the error message
