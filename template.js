@@ -31,7 +31,7 @@ exports.helpAppFeature = `
 
 App for managing tokens associated with user accounts
 
-  app --help                     displays help
+  app --help                        displays help
 
 Description:
 
@@ -43,112 +43,112 @@ Initialization Commands:
 
   app init <option>
 
-    --help                     displays help for the init command
-    --all                      creates the folder structure and the config and help files
-    --mk                       creates the folder structure
-    --cat                      creates the config file with default settings and the help files
+    --help                          displays help for the init command
+    --all                           creates the folder structure and the config and help files
+    --mk                            creates the folder structure
+    --cat                           creates the config file with default settings and the help files
 
 Configuration Commands:
 
   app config <option>
 
-    --help                     displays help for the config command
-    --show                     displays a list of the current config settings
-    --reset                    resets the config file with default settings
-    --set <key> <value>
-                               sets a specific config setting
+    --help                          displays help for the config command
+    --show                          displays a list of the current config settings
+
+    --reset c                       resets the app config file with default settings
+    --reset t                       resets the token config file with default settings
+    --reset u                       resets the user config file with default settings
+  
+    --set c <key> <value>           sets a specific config setting for app config file
+    --set t <key> <value>           sets a specific config setting for token config file
+    --set u <key> <value>           sets a specific config setting for user config file
 
 Token Management Commands:
 
   app token <option>
 
-    --help                      displays help for the token command
-    --count                     displays a count of the tokens created
+    --help                          displays help for the token command
+    --count                         displays a count of the tokens created
 
-    --new <username>            
-                                generates a token for a given username, saves tokens to the json file
-    --new <username> <phone>           
-                                generates a token for a given username, saves tokens to the json file
+    --new <username>                generates a token for a given username, saves tokens to the json file
+    --new <username> <phone>        generates a token for a given username, saves tokens to the json file
 
-    --new <username> <phone> <email>         
-                                generates a token for a given username, saves tokens to the json file
+    --new <username> <phone> <email> 
+                                    generates a token for a given username, saves tokens to the json file
     
-    --upd p <username> <phone>  
-                                updates the json entry with a new phone number
-    
-    --upd e <username> <email>  
-                                updates the json entry with a new email
+    --upd e <username> <email>      updates the json entry with a new email
+    --upd p <username> <phone>      updates the json entry with a new phone number
 
-    --search u <username>       fetches a token for a given username
-    --search e <email>          fetches a token for a given email
-    --search p <phone>          fetches a token for a given phone number
+    --search e <email>              fetches a token for a given email
+    --search p <phone>              fetches a token for a given phone number
+    --search u <username>           fetches a token for a given username
 
 `;
 
 exports.helpInitFeature = `
 
-Name:                       init
+Name: init
 
-Description:                feature for initializing the app
+Description:                    feature for initializing the app
 
-Synopsis:                   app init <option>
+Synopsis:                       app init <option>
 
 The options are as follows:
 
-  --help                    displays help for the init command
-  --all                     creates the folder structure and the config and help files
-  --mk                      creates the folder structure
-  --cat                     creates the config file with default settings and the help files
+  --help                        displays help for the init command
+  --all                         creates the folder structure and the config and help files
+  --mk                          creates the folder structure
+  --cat                         creates the config file with default settings and the help files
 
 `;
 
 exports.helpCfgFeature = `
 
-Name:                       config
+Name: config
 
-Description:                feature for configuring settings
+Description:                    feature for configuring settings
 
-Synopsis:                   app config <option>
+Synopsis:                       app config <option>
 
 The options are as follows:
 
-  --help                    displays help for the config command
-  --show                    displays a list of the current config settings
-  --reset                   resets the config file with default settings
-  --set <key> <value>
-                            sets a specific config setting
+  --help                        displays help for the config command
+  --show                        displays a list of the current config settings
+
+  --reset c                     resets the app config file with default settings
+  --reset t                     resets the token config file with default settings
+  --reset u                     resets the user config file with default settings
+
+  --set c <key> <value>         sets a specific config setting for app config file
+  --set t <key> <value>         sets a specific config setting for token config file
+  --set u <key> <value>         sets a specific config setting for user config file
 
 `;
 
 exports.helpTokenFeature = `
 
-Name:                       token
+Name: token
 
-Description:                feature for generating and managing tokens
+Description:                    feature for generating and managing tokens
 
-Synopsis:                   app token <option>
+Synopsis:                       app token <option>
 
 The options are as follows:
 
-  --help                    displays help for the token command
-  --count                   displays a count of the tokens created
+  --help                        displays help for the token command
+  --count                       displays a count of the tokens created
 
-  --new <username>            
-                            generates a token for a given username, saves tokens to the json file
-  --new <username> <phone>           
-                            generates a token for a given username, saves tokens to the json file
+  --new <username>              generates a token for a given username, saves tokens to the json file
+  --new <username> <phone>      generates a token for a given username, saves tokens to the json file
 
   --new <username> <phone> <email>         
-                            generates a token for a given username, saves tokens to the json file
+                                generates a token for a given username, saves tokens to the json file
 
-  --upd p <username> <phone>  
-                            updates the json entry with a new phone number
+  --upd e <username> <email>    updates the json entry with a new email
+  --upd p <username> <phone>    updates the json entry with a new phone number
 
-  --upd e <username> <email>  
-                            updates the json entry with a new email
-
-  --search u <username>     fetches a token for a given username
-  --search e <email>        fetches a token for a given email
-  --search p <phone>        fetches a token for a given phone number
+  --search e <email>            fetches a token for a given email
+  --search p <phone>            fetches a token for a given phone number
+  --search u <username>         fetches a token for a given username
 
 `;

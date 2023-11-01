@@ -75,16 +75,23 @@ const tokenSearchAliasMap = new Map([
   ["u", "username"],
 ]);
 
+// Map to define aliases for set/reset configFeature options
+const cfgOptionPathMap = new Map([
+  ["c", appCfgFilePath],
+  ["t", tokenCfgFilePath],
+  ["u", userCfgFilePath],
+]);
+
 // Map to connect file names with its content
 const fileContentMap = new Map([
-  [appHelpFilePath, helpAppFeature],
   [appCfgFilePath, configTemplate],
-  [initHelpFilePath, helpInitFeature],
-  [cfgHelpFilePath, helpCfgFeature],
-  [tokenHelpFilePath, helpTokenFeature],
   [userCfgFilePath, userTemplate],
   [tokenCfgFilePath, tokenTemplate],
   [allTokensFilePath, allTokensTemplate],
+  [appHelpFilePath, helpAppFeature],
+  [initHelpFilePath, helpInitFeature],
+  [cfgHelpFilePath, helpCfgFeature],
+  [tokenHelpFilePath, helpTokenFeature],
 ]);
 
 // Folder structure for "init" feature
@@ -115,6 +122,7 @@ module.exports = {
   logFile,
   tokenUpdAliasMap,
   tokenSearchAliasMap,
+  cfgOptionPathMap,
   fileContentMap,
   folderStructureSet,
 };
