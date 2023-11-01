@@ -6,13 +6,14 @@ const { format } = require("date-fns");
 
 // Import required functions/variables from built-in modules
 const {
+  configTemplate,
+  userTemplate,
+  tokenTemplate,
+  allTokensTemplate,
   helpAppFeature,
   helpInitFeature,
   helpCfgFeature,
   helpTokenFeature,
-  userTemplate,
-  tokenTemplate,
-  allTokensTemplate,
 } = require("./template.js");
 
 // Define and initialize various file paths, folders, and configuration values
@@ -33,10 +34,12 @@ const tokenHelpFilePath = join(helpFolder, tokenHelpFile);
 
 // Folder and files for configuration feature
 const cfgFolder = "json";
+const appCfgFile = "app-config.json";
 const userCfgFile = "user-config.json";
 const tokenCfgFile = "token-config.json";
 
 // Create full file paths by joining folder and file names
+const appCfgFilePath = join(cfgFolder, appCfgFile);
 const userCfgFilePath = join(cfgFolder, userCfgFile);
 const tokenCfgFilePath = join(cfgFolder, tokenCfgFile);
 
@@ -75,6 +78,7 @@ const tokenSearchAliasMap = new Map([
 // Map to connect file names with its content
 const fileContentMap = new Map([
   [appHelpFilePath, helpAppFeature],
+  [appCfgFilePath, configTemplate],
   [initHelpFilePath, helpInitFeature],
   [cfgHelpFilePath, helpCfgFeature],
   [tokenHelpFilePath, helpTokenFeature],
@@ -99,6 +103,7 @@ module.exports = {
   initHelpFilePath,
   cfgHelpFilePath,
   tokenHelpFilePath,
+  appCfgFilePath,
   userCfgFilePath,
   tokenCfgFilePath,
   tokenExpiresDays,
