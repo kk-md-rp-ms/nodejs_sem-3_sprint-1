@@ -55,7 +55,7 @@ Configuration Commands:
     --help                     displays help for the config command
     --show                     displays a list of the current config settings
     --reset                    resets the config file with default settings
-    --set <option> <value>
+    --set <key> <value>
                                sets a specific config setting
 
 Token Management Commands:
@@ -115,7 +115,7 @@ The options are as follows:
   --help                    displays help for the config command
   --show                    displays a list of the current config settings
   --reset                   resets the config file with default settings
-  --set <option> <value>
+  --set <key> <value>
                             sets a specific config setting
 
 `;

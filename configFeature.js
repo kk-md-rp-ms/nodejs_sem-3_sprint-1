@@ -3,15 +3,24 @@ const logEE = require("./log-emitter");
 const { cfgHelpFilePath, fileContentMap } = require("./defaults");
 const { createFolderWithFile } = require("./utils-fs");
 
-const { processCfgShow, processCfgHelp } = require("./utils-config");
+const {
+  processCfgShow,
+  processCfgReset,
+  processCfgHelp,
+} = require("./utils-config");
 
 // Define a function to handle the config feature based on provided options
 const configFeature = async (optionsArr) => {
   // Create the config help folder and file as soon as the configFeature is accessed
-  await createFolderWithFile(
-    cfgHelpFilePath,
-    fileContentMap.get(cfgHelpFilePath)
-  );
+  try {
+    await createFolderWithFile(
+      cfgHelpFilePath,
+      fileContentMap.get(cfgHelpFilePath)
+    );
+  } catch (err) {
+    // Handle and log any errors that occur during folder/file creation
+    logEE.logToFile("configFeature", "error", err.message);
+  }
 
   switch (optionsArr[0]) {
     case "--show":
@@ -20,6 +29,17 @@ const configFeature = async (optionsArr) => {
 
       // Display a list of the current config settings
       await processCfgShow(optionsArr.slice(1));
+      break;
+    case "--reset":
+      // Write log to the file
+      logEE.logToFile(
+        "configFeature",
+        "info",
+        `Access to the "--reset" option`
+      );
+
+      // Reset the current config settings to default values
+      await processCfgReset(optionsArr.slice(1));
       break;
     case "--help":
     default:
