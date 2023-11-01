@@ -8,7 +8,10 @@ const { processCfgHelp } = require("./utils-config");
 // Define a function to handle the config feature based on provided options
 const configFeature = async (optionsArr) => {
   // Create the config help folder and file as soon as the configFeature is accessed
-  createFolderWithFile(cfgHelpFilePath, fileContentMap.get(cfgHelpFilePath));
+  await createFolderWithFile(
+    cfgHelpFilePath,
+    fileContentMap.get(cfgHelpFilePath)
+  );
 
   switch (optionsArr[0]) {
     case "--help":

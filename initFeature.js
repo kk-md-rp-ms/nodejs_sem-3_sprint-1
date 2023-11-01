@@ -13,7 +13,10 @@ const {
 // Define a function to handle the init feature based on provided options
 const initFeature = async (optionsArr) => {
   // Create the init help folder and file as soon as the initFeature is accessed
-  createFolderWithFile(initHelpFilePath, fileContentMap.get(initHelpFilePath));
+  await createFolderWithFile(
+    initHelpFilePath,
+    fileContentMap.get(initHelpFilePath)
+  );
 
   switch (optionsArr[0]) {
     case "--all":
