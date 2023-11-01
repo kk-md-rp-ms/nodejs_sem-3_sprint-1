@@ -35,6 +35,19 @@ const processCfgShow = async (optionsArr) => {
       )
     : logEE.logToFile("processCfgShow", "error", `"config" file not found`);
 };
+// Function to process the config option "--reset"
+const processCfgReset = async (optionsArr) => {
+  // Check if there are extra arguments after "--reset"
+  if (optionsArr.length) {
+    // Provide feedback
+    console.log("Invalid syntax");
+
+    // Write log to the file
+    logEE.logToFile("processCfgReset", "warning", "Invalid syntax");
+    return;
+  }
+  console.log("Hello I am a RESET");
+};
 
 // Function to process the config option "--help"
 const processCfgHelp = async (optionsArr) => {
@@ -63,5 +76,6 @@ const processCfgHelp = async (optionsArr) => {
 // Export all the defined variables for use in other modules
 module.exports = {
   processCfgShow,
+  processCfgReset,
   processCfgHelp,
 };
