@@ -56,12 +56,12 @@ Configuration Commands:
     --show                          displays a list of the current config settings
 
     --reset c                       resets the app config file with default settings
-    --reset u                       resets the user config file with default settings
     --reset t                       resets the token config file with default settings
+    --reset u                       resets the user config file with default settings
   
     --set c <key> <value>           sets a specific config setting for app config file
-    --set u <key> <value>           sets a specific config setting for user config file
     --set t <key> <value>           sets a specific config setting for token config file
+    --set u <key> <value>           sets a specific config setting for user config file
 
 Token Management Commands:
 
@@ -76,13 +76,12 @@ Token Management Commands:
     --new <username> <phone> <email> 
                                     generates a token for a given username, saves tokens to the json file
     
-    --upd p <username> <phone>      updates the json entry with a new phone number
-    
     --upd e <username> <email>      updates the json entry with a new email
+    --upd p <username> <phone>      updates the json entry with a new phone number
 
-    --search u <username>           fetches a token for a given username
     --search e <email>              fetches a token for a given email
     --search p <phone>              fetches a token for a given phone number
+    --search u <username>           fetches a token for a given username
 
 `;
 
@@ -117,12 +116,12 @@ The options are as follows:
   --show                        displays a list of the current config settings
 
   --reset c                     resets the app config file with default settings
-  --reset u                     resets the user config file with default settings
   --reset t                     resets the token config file with default settings
+  --reset u                     resets the user config file with default settings
 
   --set c <key> <value>         sets a specific config setting for app config file
-  --set u <key> <value>         sets a specific config setting for user config file
   --set t <key> <value>         sets a specific config setting for token config file
+  --set u <key> <value>         sets a specific config setting for user config file
 
 `;
 
@@ -145,11 +144,11 @@ The options are as follows:
   --new <username> <phone> <email>         
                                 generates a token for a given username, saves tokens to the json file
 
-  --upd p <username> <phone>    updates the json entry with a new phone number
   --upd e <username> <email>    updates the json entry with a new email
+  --upd p <username> <phone>    updates the json entry with a new phone number
 
-  --search u <username>         fetches a token for a given username
   --search e <email>            fetches a token for a given email
   --search p <phone>            fetches a token for a given phone number
+  --search u <username>         fetches a token for a given username
 
 `;
