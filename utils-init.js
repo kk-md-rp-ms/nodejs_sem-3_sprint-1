@@ -153,6 +153,7 @@ const processInitCat = async (optionsArr) => {
   );
 };
 
+// Export all the defined variables for use in other modules
 module.exports = {
   processInitHelp,
   processInitAll,
