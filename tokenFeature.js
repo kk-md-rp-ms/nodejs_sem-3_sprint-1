@@ -14,7 +14,7 @@ const {
 // Define a function to handle the token feature based on provided options
 const tokenFeature = async (optionsArr) => {
   // Create the token help folder and file as soon as the tokenFeature is accessed
-  createFolderWithFile(
+  await createFolderWithFile(
     tokenHelpFilePath,
     fileContentMap.get(tokenHelpFilePath)
   );
