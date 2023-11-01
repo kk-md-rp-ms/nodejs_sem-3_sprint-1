@@ -28,6 +28,7 @@ const processCfgHelp = async (optionsArr) => {
     : logEE.logToFile("processCfgHelp", "error", `"help" file not found`);
 };
 
+// Export all the defined variables for use in other modules
 module.exports = {
   processCfgHelp,
 };

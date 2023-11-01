@@ -84,6 +84,7 @@ const saveLog = async (log) => {
   }
 };
 
+// Export all the defined variables for use in other modules
 module.exports = {
   createDevLog,
   createLog,
