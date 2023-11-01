@@ -1,10 +1,7 @@
-// Import required functions/variables from built-in modules
-const { dirname } = require("node:path");
-
 // Import required functions/variables from custom modules
 const logEE = require("./log-emitter");
 const { tokenHelpFilePath, fileContentMap } = require("./defaults");
-const { createFolder, createFile } = require("./utils-fs");
+const { createFolderWithFile } = require("./utils-fs");
 
 const {
   processTokenHelp,
@@ -17,13 +14,10 @@ const {
 // Define a function to handle the token feature based on provided options
 const tokenFeature = async (optionsArr) => {
   // Create the token help folder and file as soon as the tokenFeature is accessed
-  try {
-    createFolder(dirname(tokenHelpFilePath));
-    createFile(fileContentMap.get(tokenHelpFilePath), tokenHelpFilePath);
-  } catch (err) {
-    // Handle and log any errors that occur during folder/file creation
-    logEE.logToFile("tokenFeature", "error", err.message);
-  }
+  createFolderWithFile(
+    tokenHelpFilePath,
+    fileContentMap.get(tokenHelpFilePath)
+  );
 
   switch (optionsArr[0]) {
     case "--count":

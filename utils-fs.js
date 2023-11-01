@@ -1,6 +1,6 @@
 // Import required functions/variables from built-in modules
 const { readFile, writeFile, mkdir } = require("node:fs/promises");
-const { join, basename } = require("node:path");
+const { join, dirname, basename } = require("node:path");
 
 // Import required functions/variables from custom modules
 const logEE = require("./log-emitter");
@@ -113,10 +113,22 @@ const createFile = async (content, ...pathArgs) => {
   }
 };
 
+// Define a function to create folder and file in it
+const createFolderWithFile = async (path, content) => {
+  try {
+    createFolder(dirname(path));
+    createFile(content, path);
+  } catch (err) {
+    // Handle and log any errors that occur during folder/file creation
+    logEE.logToFile("createFolderWithFile", "error", err.message);
+  }
+};
+
 // Export the functions for use in other modules
 module.exports = {
   fetchJSONFile,
   fetchTxtFile,
   createFolder,
   createFile,
+  createFolderWithFile,
 };
