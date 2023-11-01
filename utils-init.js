@@ -12,7 +12,7 @@ const {
 
 const { fetchTxtFile, createFolder, createFile } = require("./utils-fs");
 
-// Functions to process the init option "--help"
+// Function to process the init option "--help"
 const processInitHelp = async (optionsArr) => {
   // Check if there are extra arguments after "--help"
   if (optionsArr.length) {
@@ -36,7 +36,7 @@ const processInitHelp = async (optionsArr) => {
     : logEE.logToFile("processInitHelp", "error", `"help" file not found`);
 };
 
-// Functions to process the init option "--all"
+// Function to process the init option "--all"
 const processInitAll = async (optionsArr) => {
   // Check if there are extra arguments after "--all"
   if (optionsArr.length) {
@@ -52,7 +52,7 @@ const processInitAll = async (optionsArr) => {
   await processInitCat([]);
 };
 
-// Functions to process the init option "--mk"
+// Function to process the init option "--mk"
 const processInitMk = async (optionsArr) => {
   // Check if there are extra arguments after "--mk"
   if (optionsArr.length) {
@@ -105,7 +105,7 @@ const processInitMk = async (optionsArr) => {
   );
 };
 
-// Functions to process the init option "--cat"
+// Function to process the init option "--cat"
 const processInitCat = async (optionsArr) => {
   // Check if there are extra arguments after "--cat"
   if (optionsArr.length) {
