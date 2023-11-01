@@ -41,6 +41,13 @@ const configFeature = async (optionsArr) => {
       // Reset the current config settings to default values
       await processCfgReset(optionsArr.slice(1));
       break;
+    case "--set":
+      // Write log to the file
+      logEE.logToFile("configFeature", "info", `Access to the "--set" option`);
+
+      // Set the provided fields to the specified values
+      await processCfgSet(optionsArr.slice(1));
+      break;
     case "--help":
     default:
       // Write log to the file
