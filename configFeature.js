@@ -6,6 +6,7 @@ const { createFolderWithFile } = require("./utils-fs");
 const {
   processCfgShow,
   processCfgReset,
+  processCfgSet,
   processCfgHelp,
 } = require("./utils-config");
 
