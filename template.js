@@ -27,7 +27,7 @@ exports.allTokensTemplate = [];
 // Define variables for "--help" option.
 // Variables will be used by "init" feature to create help files in "txt" folder
 
-exports.helpAllFeatures = `
+exports.helpAppFeature = `
 
 App for managing tokens associated with user accounts
 
