@@ -6,6 +6,7 @@ const { format } = require("date-fns");
 
 // Import required functions/variables from built-in modules
 const {
+  helpAppFeature,
   helpInitFeature,
   helpCfgFeature,
   helpTokenFeature,
@@ -19,11 +20,13 @@ const notFoundMessage = "File not found";
 
 // Folder and files for the help options
 const helpFolder = "txt";
+const appHelpFile = "app-help.txt";
 const initHelpFile = "init-help.txt";
 const cfgHelpFile = "config-help.txt";
 const tokenHelpFile = "token-help.txt";
 
 // Create full file paths by joining folder and file names
+const appHelpFilePath = join(helpFolder, appHelpFile);
 const initHelpFilePath = join(helpFolder, initHelpFile);
 const cfgHelpFilePath = join(helpFolder, cfgHelpFile);
 const tokenHelpFilePath = join(helpFolder, tokenHelpFile);
@@ -71,6 +74,7 @@ const tokenSearchAliasMap = new Map([
 
 // Map to connect file names with its content
 const fileContentMap = new Map([
+  [appHelpFilePath, helpAppFeature],
   [initHelpFilePath, helpInitFeature],
   [cfgHelpFilePath, helpCfgFeature],
   [tokenHelpFilePath, helpTokenFeature],
@@ -91,6 +95,7 @@ const folderStructureSet = new Set([
 // Export all the defined variables for use in other modules
 module.exports = {
   notFoundMessage,
+  appHelpFilePath,
   initHelpFilePath,
   cfgHelpFilePath,
   tokenHelpFilePath,
