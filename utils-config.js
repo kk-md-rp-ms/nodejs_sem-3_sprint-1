@@ -27,10 +27,11 @@ const processCfgShow = async (optionsArr) => {
   }
 
   // Read the config text from the specified file
-  const data = (await fetchJSONFile(appCfgFilePath)) || notFoundMessage;
+  let data = (await fetchJSONFile(appCfgFilePath)) || notFoundMessage;
+  data = data !== notFoundMessage ? JSON.stringify(data, null, 2) : data;
 
   // Display result
-  console.log(JSON.stringify(data, null, 2));
+  console.log(data);
 
   // Write log to the file
   data !== notFoundMessage
@@ -44,7 +45,7 @@ const processCfgShow = async (optionsArr) => {
 
 // Function to process the config option "--reset"
 const processCfgReset = async (optionsArr) => {
-  // Check if the arguments for reset option are valid
+  // Check if the arguments for the reset option are valid
   if (optionsArr.length != 1 || !cfgOptionPathMap.has(optionsArr[0])) {
     // Provide feedback
     console.log("Invalid syntax");
@@ -53,12 +54,14 @@ const processCfgReset = async (optionsArr) => {
     return;
   }
 
-  // Initialize variables to track the status of reset and feedback message
+  // Set the path variable
   const path = cfgOptionPathMap.get(optionsArr[0]);
+
+  // Initialize variables to track the status of folder and file creation and feedback message
   let logStatusFlag = false;
   let feedbackMessage;
 
-  // Create the config folder and file specified by given path
+  // Create the config folder and file specified by the given path
   try {
     await createFolderWithFile(
       path,
@@ -79,6 +82,88 @@ const processCfgReset = async (optionsArr) => {
   // Write log to the file
   logEE.logToFile(
     "processCfgReset",
+    logStatusFlag ? "success" : "error",
+    feedbackMessage
+  );
+};
+
+// Function to process the config option "--set"
+const processCfgSet = async (optionsArr) => {
+  // Check if the arguments for the set option are valid
+  if (optionsArr.length != 3 || !cfgOptionPathMap.has(optionsArr[0])) {
+    // Provide feedback
+    console.log("Invalid syntax");
+
+    // Write log to the file
+    logEE.logToFile("processCfgSet", "warning", "Invalid syntax");
+    return;
+  }
+
+  // Set the path variable
+  const path = cfgOptionPathMap.get(optionsArr[0]);
+
+  // Read the config text from the specified file
+  let data = (await fetchJSONFile(path)) || notFoundMessage;
+
+  if (data === notFoundMessage) {
+    // Provide feedback
+    console.log(data);
+
+    // Write log to the file
+    logEE.logToFile("processCfgSet", "error", `"config" file not found`);
+    return;
+  }
+
+  // Initialize variables to track the status of the data update action and feedback message
+  let updateDataFlag = false;
+  let feedbackMessage;
+
+  // Iterate through the keys in the "data" object
+  for (const key in data) {
+    // Check if the current key (case-insensitive) matches the target field specified in "optionsArr[1]"
+    if (key.toLowerCase() === optionsArr[1].toLowerCase()) {
+      // If a match is found, update the data
+      data[key] = optionsArr[2];
+
+      // Set the feedback message and the flag to "true" to indicate success
+      feedbackMessage = `Success. Data in field \"${key}\" was updated to \"${data[key]}\"`;
+      updateDataFlag = true;
+      break;
+    }
+  }
+
+  // Exit the function if data wasn't updated
+  if (!updateDataFlag) {
+    // Set the feedback message
+    feedbackMessage = `There is no field like \"${optionsArr[1]}\". Data wasn't updated`;
+
+    // Provide feedback
+    console.log(feedbackMessage);
+
+    // Write log to the file
+    logEE.logToFile("processCfgSet", "warning", feedbackMessage);
+    return;
+  }
+
+  // Initialize variable to track the status of folder and file creation
+  let logStatusFlag = false;
+
+  // Create the config folder and file specified by the given path
+  try {
+    await createFolderWithFile(path, JSON.stringify(data, null, 2));
+
+    logStatusFlag = true;
+  } catch (err) {
+    // If an error occurs during folder creation, capture the error message
+    feedbackMessage = err.message;
+  }
+
+  // Provide feedback
+  console.log(feedbackMessage);
+
+  // Write log to the file
+  logEE.logToFile(
+    "processCfgSet",
     logStatusFlag ? "success" : "error",
     feedbackMessage
   );
@@ -112,5 +197,6 @@ const processCfgHelp = async (optionsArr) => {
 module.exports = {
   processCfgShow,
   processCfgReset,
+  processCfgSet,
   processCfgHelp,
 };
