@@ -4,11 +4,11 @@ const { tokenHelpFilePath, fileContentMap } = require("./defaults");
 const { createFolderWithFile } = require("./utils-fs");
 
 const {
-  processTokenHelp,
   processTokenCount,
   processTokenNew,
   processTokenUpd,
   processTokenSearch,
+  processTokenHelp,
 } = require("./utils-token");
 
 // Define a function to handle the token feature based on provided options

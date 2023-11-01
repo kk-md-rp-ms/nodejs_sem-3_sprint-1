@@ -3,7 +3,7 @@ const logEE = require("./log-emitter");
 const { cfgHelpFilePath, fileContentMap } = require("./defaults");
 const { createFolderWithFile } = require("./utils-fs");
 
-const { processCfgHelp } = require("./utils-config");
+const { processCfgShow, processCfgHelp } = require("./utils-config");
 
 // Define a function to handle the config feature based on provided options
 const configFeature = async (optionsArr) => {
@@ -14,6 +14,13 @@ const configFeature = async (optionsArr) => {
   );
 
   switch (optionsArr[0]) {
+    case "--show":
+      // Write log to the file
+      logEE.logToFile("configFeature", "info", `Access to the "--show" option`);
+
+      // Display a list of the current config settings
+      await processCfgShow(optionsArr.slice(1));
+      break;
     case "--help":
     default:
       // Write log to the file

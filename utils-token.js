@@ -231,7 +231,7 @@ const getTokenLifeSpan = (ttlDays) => {
   );
 };
 
-// Functions to process the token option "--help"
+// Function to process the token option "--help"
 const processTokenHelp = async (optionsArr) => {
   // Check if there are extra arguments after "--help"
   if (optionsArr.length) {
@@ -259,7 +259,7 @@ const processTokenHelp = async (optionsArr) => {
     : logEE.logToFile("processTokenHelp", "error", `"help" file not found`);
 };
 
-// Functions to process the token option "--count"
+// Function to process the token option "--count"
 const processTokenCount = async (optionsArr) => {
   // Check if there are extra arguments after "--count"
   if (optionsArr.length) {
@@ -283,7 +283,7 @@ const processTokenCount = async (optionsArr) => {
   );
 };
 
-// Functions to process the token option "--new"
+// Function to process the token option "--new"
 const processTokenNew = async (optionsArr) => {
   // Fetch configured templates for creating a new token from the specified files
   // issue-#23: add functionality if "user-config.json" and "token-config.json" weren't initialized
@@ -340,7 +340,7 @@ const processTokenNew = async (optionsArr) => {
   console.log(await saveToken(allTokensFilePath, updatedDataArr));
 };
 
-// Functions to process the token option "--upd"
+// Function to process the token option "--upd"
 const processTokenUpd = async (optionsArr) => {
   // Check if the arguments for updating a token are valid
   if (optionsArr.length != 3 || !tokenUpdAliasMap.has(optionsArr[0])) {
@@ -369,7 +369,7 @@ const processTokenUpd = async (optionsArr) => {
   console.log(await saveToken(allTokensFilePath, updatedDataArr));
 };
 
-// Functions to process the token option "--search"
+// Function to process the token option "--search"
 const processTokenSearch = async (optionsArr) => {
   // Check if the arguments for searching a token are valid
   if (optionsArr.length != 2 || !tokenSearchAliasMap.has(optionsArr[0])) {
