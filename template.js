@@ -54,6 +54,10 @@ Configuration Commands:
 
     --help                          displays help for the config command
     --show                          displays a list of the current config settings
+  
+    --new c <key> <value>           adds a new attributes to the app config file
+    --new t <key> <value>           adds a new attributes to the token config file
+    --new u <key> <value>           adds a new attributes to the user config file
 
     --reset c                       resets the app config file with default settings
     --reset t                       resets the token config file with default settings
@@ -114,7 +118,11 @@ The options are as follows:
 
   --help                        displays help for the config command
   --show                        displays a list of the current config settings
-
+  
+  --new c <key> <value>         adds a new attributes to the app config file
+  --new t <key> <value>         adds a new attributes to the token config file
+  --new u <key> <value>         adds a new attributes to the user config file
+  
   --reset c                     resets the app config file with default settings
   --reset t                     resets the token config file with default settings
   --reset u                     resets the user config file with default settings
