@@ -1,5 +1,5 @@
 // Import required functions/variables from built-in modules
-const { extname } = require("node:path");
+const { basename, extname } = require("node:path");
 
 // Import required functions/variables from custom modules
 const logEE = require("./log-emitter");
@@ -32,8 +32,16 @@ const processInitHelp = async (optionsArr) => {
 
   // Write log to the file
   data !== notFoundMessage
-    ? logEE.logToFile("processInitHelp", "success", `"help" file was displayed`)
-    : logEE.logToFile("processInitHelp", "error", `"help" file not found`);
+    ? logEE.logToFile(
+        "processInitHelp",
+        "success",
+        `"${basename(initHelpFilePath)}" file was displayed`
+      )
+    : logEE.logToFile(
+        "processInitHelp",
+        "error",
+        `"${basename(initHelpFilePath)}" file not found`
+      );
 };
 
 // Function to process the init option "--all"

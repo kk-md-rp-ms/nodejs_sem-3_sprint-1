@@ -1,3 +1,6 @@
+// Import required functions/variables from built-in modules
+const { basename } = require("node:path");
+
 // Import required functions/variables from custom modules
 const logEE = require("./log-emitter");
 const {
@@ -38,9 +41,13 @@ const processCfgShow = async (optionsArr) => {
     ? logEE.logToFile(
         "processCfgShow",
         "success",
-        `"config" file was displayed`
+        `"${basename(appCfgFilePath)}" file was displayed`
       )
-    : logEE.logToFile("processCfgShow", "error", `"config" file not found`);
+    : logEE.logToFile(
+        "processCfgShow",
+        "error",
+        `"${basename(appCfgFilePath)}" file not found`
+      );
 };
 
 // Function to process the config option "--new"
@@ -66,7 +73,11 @@ const processCfgNew = async (optionsArr) => {
     console.log(data);
 
     // Write log to the file
-    logEE.logToFile("processCfgNew", "error", `"config" file not found`);
+    logEE.logToFile(
+      "processCfgNew",
+      "error",
+      `"${basename(path)}" file not found`
+    );
     return;
   }
 
@@ -166,7 +177,11 @@ const processCfgSet = async (optionsArr) => {
     console.log(data);
 
     // Write log to the file
-    logEE.logToFile("processCfgSet", "error", `"config" file not found`);
+    logEE.logToFile(
+      "processCfgSet",
+      "error",
+      `"${basename(path)}" file not found`
+    );
     return;
   }
 
@@ -246,8 +261,16 @@ const processCfgHelp = async (optionsArr) => {
 
   // Write log to the file
   data !== notFoundMessage
-    ? logEE.logToFile("processCfgHelp", "success", `"help" file was displayed`)
-    : logEE.logToFile("processCfgHelp", "error", `"help" file not found`);
+    ? logEE.logToFile(
+        "processCfgHelp",
+        "success",
+        `"${basename(cfgHelpFilePath)}" file was displayed`
+      )
+    : logEE.logToFile(
+        "processCfgHelp",
+        "error",
+        `"${basename(cfgHelpFilePath)}" file not found`
+      );
 };
 
 // Export all the defined variables for use in other modules

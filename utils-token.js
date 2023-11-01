@@ -1,5 +1,5 @@
 // Import required functions/variables from built-in modules
-const { basename, dirname } = require("node:path");
+const { dirname, basename } = require("node:path");
 
 // Import required functions/variables from npm packages
 const crc32 = require("crc/crc32");
@@ -254,9 +254,13 @@ const processTokenHelp = async (optionsArr) => {
     ? logEE.logToFile(
         "processTokenHelp",
         "success",
-        `"help" file was displayed`
+        `"${basename(tokenHelpFilePath)}" file was displayed`
       )
-    : logEE.logToFile("processTokenHelp", "error", `"help" file not found`);
+    : logEE.logToFile(
+        "processTokenHelp",
+        "error",
+        `"${basename(tokenHelpFilePath)}" file not found`
+      );
 };
 
 // Function to process the token option "--count"
