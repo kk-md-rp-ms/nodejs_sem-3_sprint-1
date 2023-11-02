@@ -48,6 +48,8 @@ const tokenExpiresDays = 3;
 const tokenFolder = "json";
 const tokenFile = "all-tokens.json";
 const tokenField = "token";
+const tokenCreatedField = "created";
+const tokenExpiresField = "expires";
 const tokenFromField = "username";
 
 // Create full file paths by joining folder and file names
@@ -115,6 +117,8 @@ module.exports = {
   tokenCfgFilePath,
   tokenExpiresDays,
   tokenField,
+  tokenCreatedField,
+  tokenExpiresField,
   tokenFromField,
   allTokensFilePath,
   logFolder,
