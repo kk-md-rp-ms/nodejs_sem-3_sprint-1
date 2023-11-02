@@ -14,6 +14,8 @@ const {
   helpInitFeature,
   helpCfgFeature,
   helpTokenFeature,
+  indexPageTemplate,
+  tokenPageTemplate,
 } = require("./template.js");
 
 // Define and initialize various file paths, folders, and configuration values
@@ -55,6 +57,15 @@ const tokenFromField = "username";
 // Create full file paths by joining folder and file names
 const allTokensFilePath = join(tokenFolder, tokenFile);
 
+// Folder and files for HTML pages
+const viewsFolder = "views";
+const indexViewFile = "index.html";
+const tokenViewFile = "token.html";
+
+// Create full file paths by joining folder and file names
+const indexViewFilePath = join(viewsFolder, indexViewFile);
+const tokenViewFilePath = join(viewsFolder, tokenViewFile);
+
 // Folder for logs
 const logFolder = "logs";
 const logSubFolder = () => {
@@ -94,11 +105,13 @@ const fileContentMap = new Map([
   [initHelpFilePath, helpInitFeature],
   [cfgHelpFilePath, helpCfgFeature],
   [tokenHelpFilePath, helpTokenFeature],
+  [indexViewFilePath, indexPageTemplate],
+  [tokenViewFilePath, tokenPageTemplate],
 ]);
 
 // Folder structure for "init" feature
 const folderStructureSet = new Set([
-  "views",
+  viewsFolder,
   logFolder,
   cfgFolder,
   tokenFolder,

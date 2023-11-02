@@ -4,8 +4,8 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "start": "node app.js",
-    "dev": "node --watch ."
+    "start": "node app.js init --all",
+    "server": "node server.js"
   },
   "repository": {
     "type": "git",
