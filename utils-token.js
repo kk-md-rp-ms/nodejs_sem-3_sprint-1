@@ -310,10 +310,9 @@ const processTokenNew = async (optionsArr) => {
       "User configuration file not found"
     );
     return;
-  } else if (
-    !optionsArr.length ||
-    optionsArr.length > userTemplateKeysArr.length
-  ) {
+  }
+
+  if (!optionsArr.length || optionsArr.length > userTemplateKeysArr.length) {
     // Provide feedback
     console.log("Invalid syntax");
 
