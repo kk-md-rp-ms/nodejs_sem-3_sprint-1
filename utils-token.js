@@ -45,7 +45,7 @@ const getAllTokens = async (path) => {
 const getTokensNum = async (path) => {
   // Get all tokens and return the count
   const dataArr = await getAllTokens(path);
-  return `The current count of tokens is: ${dataArr.length}`;
+  return dataArr.length;
 };
 
 // Function to create a new user object from keys and corresponding values
@@ -275,16 +275,17 @@ const processTokenCount = async (optionsArr) => {
     return;
   }
 
+  // Get the count of tokens from the specified file
+  // Set the feedbackMessage
+  feedbackMessage = `The current count of tokens is ${await getTokensNum(
+    allTokensFilePath
+  )}`;
+
   // Provide feedback
-  // Get the count of tokens from the specified file and display it
-  console.log(await getTokensNum(allTokensFilePath));
+  console.log(feedbackMessage);
 
   // Write log to the file
-  logEE.logToFile(
-    "processTokenCount",
-    "success",
-    "The current count of tokens was displayed"
-  );
+  logEE.logToFile("processTokenCount", "success", feedbackMessage);
 };
 
 // Function to process the token option "--new"
@@ -407,6 +408,7 @@ const processTokenSearch = async (optionsArr) => {
 
 // Export the functions for use in other modules
 module.exports = {
+  getTokensNum,
   processTokenHelp,
   processTokenCount,
   processTokenNew,
