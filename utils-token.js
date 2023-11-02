@@ -190,7 +190,7 @@ const saveToken = async (path, data) => {
 
   try {
     // Create folder if it doesn't exist and write data to the file
-    createFolderWithFile(path, JSON.stringify(data, null, 2));
+    await createFolderWithFile(path, JSON.stringify(data, null, 2));
 
     feedbackMessage = `Token was saved succesfully. File: "${basename(
       path
