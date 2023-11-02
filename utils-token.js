@@ -353,6 +353,8 @@ const processTokenNew = async (optionsArr) => {
   // Save tokens back to the file
   // Provide feedback
   console.log(await saveToken(allTokensFilePath, updatedDataArr));
+
+  return newTokenObj;
 };
 
 // Function to process the token option "--upd"
