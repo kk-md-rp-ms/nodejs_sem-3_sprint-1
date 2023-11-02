@@ -17,6 +17,7 @@ const {
   limitedPageTemplate,
   createNewTokenPageTemplate,
   createTokenCountPageTemplate,
+  tokenErrorPageTemplate,
 } = require("./template");
 const { processTokenNew, getTokensNum } = require("./utils-token");
 
@@ -68,18 +69,22 @@ app.get("^/token(.html)?$", (_, res) => {
 });
 
 app.post("^/token(.html)?$", async (req, res) => {
-  const tokenObj = await processTokenNew([req.body.username]);
-  const token = tokenObj[tokenField];
-  const tokenCreated = tokenObj[tokenCreatedField];
-  const tokenExpires = tokenObj[tokenExpiresField];
-  res.send(
-    createNewTokenPageTemplate(
-      req.body.username,
-      token,
-      tokenCreated,
-      tokenExpires
-    )
-  );
+  if (req.body.username.trim() !== "") {
+    const tokenObj = await processTokenNew([req.body.username]);
+    const token = tokenObj[tokenField];
+    const tokenCreated = tokenObj[tokenCreatedField];
+    const tokenExpires = tokenObj[tokenExpiresField];
+    res.send(
+      createNewTokenPageTemplate(
+        req.body.username,
+        token,
+        tokenCreated,
+        tokenExpires
+      )
+    );
+  } else {
+    res.send(tokenErrorPageTemplate);
+  }
 });
 
 app.get("/*", (_, res) => {
