@@ -12,7 +12,12 @@ const {
   tokenExpiresField,
   allTokensFilePath,
 } = require("./defaults");
-const { notFoundPageTemplate, limitedPageTemplate } = require("./template");
+const {
+  notFoundPageTemplate,
+  limitedPageTemplate,
+  createNewTokenPageTemplate,
+  createTokenCountPageTemplate,
+} = require("./template");
 const { processTokenNew, getTokensNum } = require("./utils-token");
 
 // Assign express app and other required constants
@@ -45,22 +50,7 @@ app.get("^/token-count(.html)?$", async (_, res) => {
     res.status(404).send(notFoundPageTemplate);
   } else {
     const currentTokenCount = await getTokensNum(allTokensFilePath);
-
-    res.send(`
-      <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Token Count</title>
-      </head>
-      <body>
-        <main>
-          <h1>Token Count</h1>
-          <div>
-            <span>${currentTokenCount}</span>
-          </div>
-        </main>
-      </body>
-      `);
+    res.send(createTokenCountPageTemplate(currentTokenCount));
   }
 });
 
@@ -82,24 +72,14 @@ app.post("^/token(.html)?$", async (req, res) => {
   const token = tokenObj[tokenField];
   const tokenCreated = tokenObj[tokenCreatedField];
   const tokenExpires = tokenObj[tokenExpiresField];
-
-  res.send(`
-    <head>
-      <meta charset="UTF-8" />
-      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <title>New Token</title>
-    </head>
-    <body>
-      <main>
-        <h1>Success. Token is created</h1>
-        <div>
-          <p><span>${req.body.username}</span> token is <span>${token}</span></p>
-          <p>Token creation date: <span>${tokenCreated}</span></p>
-          <p>Token expiry date: <span>${tokenExpires}</span></p>
-        </div>
-      </main>
-    </body>
-`);
+  res.send(
+    createNewTokenPageTemplate(
+      req.body.username,
+      token,
+      tokenCreated,
+      tokenExpires
+    )
+  );
 });
 
 app.get("/*", (_, res) => {
