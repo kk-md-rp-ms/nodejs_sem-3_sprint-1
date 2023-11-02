@@ -160,3 +160,31 @@ The options are as follows:
   --search u <username>         fetches a token for a given username
 
 `;
+
+// Define basic HTML templates for different cases
+exports.notFoundPage = `  
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Not Found</title>
+  </head>
+  <body>
+    <main>
+      <h1>404: Page Not Found</h1>
+    </main>
+  </body>
+`;
+
+exports.limitedPage = `
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Home</title>
+</head>
+<body>
+  <main>
+    <h1>Website is running with limited functionality</h1>
+    <p>Initialize the App first</p>
+  </main>
+</body>
+`;

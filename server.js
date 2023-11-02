@@ -12,26 +12,13 @@ const {
   tokenExpiresField,
   allTokensFilePath,
 } = require("./defaults");
+const { notFoundPage, limitedPage } = require("./template");
 const { processTokenNew, getTokensNum } = require("./utils-token");
 
 // Assign express app and other required constants
 const app = express();
 const PORT = 3000;
 const isExist = existsSync(join(__dirname, "public"));
-
-// Define basic HTML code for cases when page is not found
-const notFoundPage = `
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Not Found</title>
-  </head>
-  <body>
-    <main>
-      <h1>404: Page Not Found</h1>
-    </main>
-  </body>
-`;
 
 // Add middleware to serve static files from the public folder
 app.use(express.static("public"));
@@ -42,19 +29,7 @@ app.use(express.urlencoded({ extended: true }));
 // Define the root URL
 app.get("^/$|^/home(.html)?$", (_, res) => {
   if (!isExist) {
-    res.send(`
-      <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Home</title>
-      </head>
-      <body>
-        <main>
-          <h1>Website is running with limited functionality</h1>
-          <p>Initialize the App first</p>
-        </main>
-      </body>
-      `);
+    res.send(limitedPage);
   } else {
     res.sendFile(join(__dirname, "public", "index.html"), (err) => {
       if (err) {
