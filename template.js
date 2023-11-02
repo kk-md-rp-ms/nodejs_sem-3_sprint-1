@@ -162,7 +162,7 @@ The options are as follows:
 `;
 
 // Define basic HTML templates for different cases
-exports.notFoundPage = `  
+exports.notFoundPageTemplate = `  
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -175,7 +175,7 @@ exports.notFoundPage = `
   </body>
 `;
 
-exports.limitedPage = `
+exports.limitedPageTemplate = `
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -187,4 +187,42 @@ exports.limitedPage = `
     <p>Initialize the App first</p>
   </main>
 </body>
+`;
+
+exports.indexPageTemplate = `
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home</title>
+  </head>
+  <body>
+    <main>
+      <h1>Home</h1>
+      <a href="./token">Generate Token</a>
+      <a href="./token-count">See current number of Tokens</a>
+    </main>
+  </body>
+</html>
+`;
+
+exports.tokenPageTemplate = `
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Token</title>
+  </head>
+  <body>
+    <main>
+      <h1>Token</h1>
+      <form action="token" method="POST">
+        <input type="text" name="username" />
+        <input type="submit" />
+      </form>
+    </main>
+  </body>
+</html>
 `;
