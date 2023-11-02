@@ -14,6 +14,8 @@ const {
   tokenCfgFilePath,
   tokenExpiresDays,
   tokenField,
+  tokenCreatedField,
+  tokenExpiresField,
   tokenFromField,
   allTokensFilePath,
   tokenUpdAliasMap,
@@ -65,6 +67,8 @@ const createNewUserObj = (keysArr, ...args) => {
 // Function to create a new token
 const createToken = (
   tokenField,
+  created,
+  expires,
   tokenFromField,
   userObj,
   tokenObj,
@@ -83,8 +87,8 @@ const createToken = (
   newTokenObj[tokenField] = crc32(userObj[tokenFromField]).toString(16);
 
   // Set the token creation and expiration date and/or time
-  newTokenObj.created = ttlArr[0];
-  newTokenObj.expires = ttlArr[1];
+  newTokenObj[created] = ttlArr[0];
+  newTokenObj[expires] = ttlArr[1];
 
   // Write log to the file
   logEE.logToFile("createToken", "info", "New token was generated");
@@ -181,6 +185,8 @@ const updateToken = (
 
 // Function to save token data to a JSON file
 const saveToken = async (path, data) => {
+  // Initialize variables to track the status and feedback message
+  let logStatusFlag = false;
   let feedbackMessage;
 
   try {
@@ -194,16 +200,22 @@ const saveToken = async (path, data) => {
       path
     )}" was rewritten`;
 
-    // Write log to the file
-    logEE.logToFile("saveToken", "success", feedbackMessage);
+    // Set status flag
+    logStatusFlag = true;
   } catch (err) {
-    feedbackMessage = "Something happened. Token wasn't saved";
-
-    // Write log to the file
-    logEE.logToFile("saveToken", "error", err.message);
+    // If an error occurs during folder/file creation, capture the error message
+    feedbackMessage = err.message;
   }
 
-  return feedbackMessage;
+  // Provide feedback
+  console.log(feedbackMessage);
+
+  // Write log to the file
+  logEE.logToFile(
+    "saveToken",
+    logStatusFlag ? "success" : "error",
+    feedbackMessage
+  );
 };
 
 // Function to search for a token with a specific field and value
@@ -338,6 +350,8 @@ const processTokenNew = async (optionsArr) => {
   // Create a new token from user object
   const newTokenObj = createToken(
     tokenField,
+    tokenCreatedField,
+    tokenExpiresField,
     tokenFromField,
     newUserObj,
     tokenTemplate,
@@ -347,12 +361,11 @@ const processTokenNew = async (optionsArr) => {
   // Read the existing tokens
   const dataArr = await getAllTokens(allTokensFilePath);
 
-  // Add new token to the existed tokens
+  // Add a new token to the existing tokens or update the creation and expiration dates if the token already exists
   const updatedDataArr = addToken(dataArr, tokenField, newTokenObj);
 
   // Save tokens back to the file
-  // Provide feedback
-  console.log(await saveToken(allTokensFilePath, updatedDataArr));
+  await saveToken(allTokensFilePath, updatedDataArr);
 
   return newTokenObj;
 };
@@ -382,8 +395,7 @@ const processTokenUpd = async (optionsArr) => {
   );
 
   // Save tokens back to the file
-  // Provide feedback
-  console.log(await saveToken(allTokensFilePath, updatedDataArr));
+  await saveToken(allTokensFilePath, updatedDataArr);
 };
 
 // Function to process the token option "--search"
