@@ -45,7 +45,7 @@ const getAllTokens = async (path) => {
 const getTokensNum = async (path) => {
   // Get all tokens and return the count
   const dataArr = await getAllTokens(path);
-  return `The current count of tokens is: ${dataArr.length}`;
+  return dataArr.length;
 };
 
 // Function to create a new user object from keys and corresponding values
@@ -105,21 +105,29 @@ const addToken = (allTokens, tokenField, newToken) => {
     return item;
   });
 
-  // Assign resultMessage based on condition
-  let resultMessage;
+  // Initialize variables to track the status and feedback message
+  let logStatusFlag = false;
+  let feedbackMessage;
+
   if (flagTokenExist) {
-    resultMessage = "Token existed and was updated";
+    feedbackMessage = "Token existed and was updated";
   } else {
     // If the token doesn't exist, add the new token to the array
     data.push(newToken);
-    resultMessage = "New token was added successfully";
+    feedbackMessage = "New token was added successfully";
+
+    logStatusFlag = true;
   }
 
   // Provide feedback
-  console.log(resultMessage);
+  console.log(feedbackMessage);
 
   // Write log to the file
-  logEE.logToFile("addToken", "success", resultMessage);
+  logEE.logToFile(
+    "addToken",
+    logStatusFlag ? "success" : "warning",
+    feedbackMessage
+  );
 
   return data;
 };
@@ -135,9 +143,9 @@ const updateToken = (
   // Calculate and set the token value using the CRC32 hash
   const token = crc32(tokenValue).toString(16);
 
+  // Map over the existing tokens and update the matching token if found
   let flagUpdateSuccess = false;
 
-  // Map over the existing tokens and update the matching token if found
   const data = allTokens.map((item) => {
     if (item[tokenField] === token) {
       flagUpdateSuccess = true;
@@ -147,22 +155,25 @@ const updateToken = (
     return item;
   });
 
-  // Assign resultMessage based on condition
-  let resultMessage;
+  // Initialize variables to track the status and feedback message
+  let logStatusFlag = false;
+  let feedbackMessage;
+
   if (flagUpdateSuccess) {
-    resultMessage = `"${fieldToUpdate}" successfully updated for "${tokenValue}". The updated value is: "${newData}"`;
+    feedbackMessage = `"${fieldToUpdate}" successfully updated for "${tokenValue}". The updated value is: "${newData}"`;
+    logStatusFlag = true;
   } else {
-    resultMessage = `"${tokenValue}" not found. Data wasn't updated`;
+    feedbackMessage = `"${tokenValue}" not found. Data wasn't updated`;
   }
 
   // Provide feedback
-  console.log(resultMessage);
+  console.log(feedbackMessage);
 
   // Write log to the file
   logEE.logToFile(
     "updateToken",
-    resultMessage.includes("not found") ? "warning" : "success",
-    resultMessage
+    logStatusFlag ? "success" : "warning",
+    feedbackMessage
   );
 
   return data;
@@ -170,7 +181,7 @@ const updateToken = (
 
 // Function to save token data to a JSON file
 const saveToken = async (path, data) => {
-  let resultMessage;
+  let feedbackMessage;
 
   try {
     // Create the folder if it doesn't exist
@@ -179,20 +190,20 @@ const saveToken = async (path, data) => {
     // Write the data to a JSON file
     await createFile(JSON.stringify(data, null, 2), path);
 
-    resultMessage = `Token was saved succesfully. File: "${basename(
+    feedbackMessage = `Token was saved succesfully. File: "${basename(
       path
     )}" was rewritten`;
 
     // Write log to the file
-    logEE.logToFile("saveToken", "success", resultMessage);
+    logEE.logToFile("saveToken", "success", feedbackMessage);
   } catch (err) {
-    resultMessage = "Something happened. Token wasn't saved";
+    feedbackMessage = "Something happened. Token wasn't saved";
 
     // Write log to the file
     logEE.logToFile("saveToken", "error", err.message);
   }
 
-  return resultMessage;
+  return feedbackMessage;
 };
 
 // Function to search for a token with a specific field and value
@@ -275,16 +286,17 @@ const processTokenCount = async (optionsArr) => {
     return;
   }
 
+  // Get the count of tokens from the specified file
+  // Set the feedbackMessage
+  feedbackMessage = `The current count of tokens is ${await getTokensNum(
+    allTokensFilePath
+  )}`;
+
   // Provide feedback
-  // Get the count of tokens from the specified file and display it
-  console.log(await getTokensNum(allTokensFilePath));
+  console.log(feedbackMessage);
 
   // Write log to the file
-  logEE.logToFile(
-    "processTokenCount",
-    "success",
-    "The current count of tokens was displayed"
-  );
+  logEE.logToFile("processTokenCount", "success", feedbackMessage);
 };
 
 // Function to process the token option "--new"
@@ -309,10 +321,9 @@ const processTokenNew = async (optionsArr) => {
       "User configuration file not found"
     );
     return;
-  } else if (
-    !optionsArr.length ||
-    optionsArr.length > userTemplateKeysArr.length
-  ) {
+  }
+
+  if (!optionsArr.length || optionsArr.length > userTemplateKeysArr.length) {
     // Provide feedback
     console.log("Invalid syntax");
 
@@ -342,6 +353,8 @@ const processTokenNew = async (optionsArr) => {
   // Save tokens back to the file
   // Provide feedback
   console.log(await saveToken(allTokensFilePath, updatedDataArr));
+
+  return newTokenObj;
 };
 
 // Function to process the token option "--upd"
@@ -407,6 +420,7 @@ const processTokenSearch = async (optionsArr) => {
 
 // Export the functions for use in other modules
 module.exports = {
+  getTokensNum,
   processTokenHelp,
   processTokenCount,
   processTokenNew,
