@@ -1,5 +1,5 @@
 // Import required functions/variables from built-in modules
-const { dirname, basename } = require("node:path");
+const { basename } = require("node:path");
 
 // Import required functions/variables from npm packages
 const crc32 = require("crc/crc32");
@@ -25,8 +25,7 @@ const {
 const {
   fetchJSONFile,
   fetchTxtFile,
-  createFolder,
-  createFile,
+  createFolderWithFile,
 } = require("./utils-fs");
 
 // Function to retrieve all tokens from a JSON file
@@ -190,11 +189,8 @@ const saveToken = async (path, data) => {
   let feedbackMessage;
 
   try {
-    // Create the folder if it doesn't exist
-    await createFolder(dirname(path));
-
-    // Write the data to a JSON file
-    await createFile(JSON.stringify(data, null, 2), path);
+    // Create folder if it doesn't exist and write data to the file
+    createFolderWithFile(path, JSON.stringify(data, null, 2));
 
     feedbackMessage = `Token was saved succesfully. File: "${basename(
       path
