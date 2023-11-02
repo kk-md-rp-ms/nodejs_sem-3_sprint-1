@@ -6,6 +6,8 @@
   --ff-sans-normal: "Indie Flower", cursive;
 
   /* fonts-sizes */
+  --f--3xs: 0.875rem;
+  --f--xxs: 1rem;
   --f--s: 1.5rem;
   --f--m: 2rem;
   --f--3xl: 6rem;
@@ -21,6 +23,7 @@
   --c--accent-1: rgb(227, 227, 116);
   --c--accent-2: rgb(255, 0, 255);
   --c--accent-3: rgb(255, 255, 255);
+  --c--accent-4: rgb(116, 210, 227);
   --c--bg-gradient: repeating-linear-gradient(
       to right,
       #231f20,
@@ -149,6 +152,14 @@ select {
 }
 
 /* font-sizes */
+.fs--xxs {
+  font-size: var(--f--xxs);
+}
+
+.fs--3xs {
+  font-size: var(--f--3xs);
+}
+
 .fs--m {
   font-size: var(--f--m);
 }
@@ -168,6 +179,10 @@ select {
 
 .text--c--accent-1 {
   color: var(--c--accent-1);
+}
+
+.text--c--accent-4 {
+  color: var(--c--accent-4);
 }
 
 /* background-colors */
