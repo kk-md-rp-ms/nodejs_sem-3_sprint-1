@@ -177,8 +177,20 @@ exports.notFoundPageTemplate = `<head>
     <title>Not Found</title>
   </head>
   <body>
-    <main class="container container--pall">
+    <main class="container container--pall mb--3">
       <h1 class="mb--3">404: Page <span class="text--c--accent-1">Not Found</span></h1>
+      <p><a class="fs--3xs text--c--accent-4" href="home">[I wanna go home]</a></p>
+    </main>
+  </body>`;
+
+exports.tokenErrorPageTemplate = `<head>
+    ${metaAndLink}
+    <title>Error</title>
+  </head>
+  <body>
+    <main class="container container--pall mb--3">
+      <h1 class="mb--3">Sorry, token value is <span class="text--c--accent-1">not valid</span></h1>
+      <p><a class="fs--3xs text--c--accent-4" href="home">[I wanna go home]</a></p>
     </main>
   </body>`;
 
@@ -187,7 +199,7 @@ exports.limitedPageTemplate = `<head>
     <title>Home</title>
   </head>
   <body>
-    <main class="container container--pall">
+    <main class="container container--pall mb--3">
       <h1 class="mb--3">Website is running with <span class="text--c--accent-1">limited functionality</span></h1>
       <p class="text--c--white fs--4xl">Initialize the App first</p>
     </main>
@@ -200,7 +212,7 @@ exports.indexPageTemplate = `<!DOCTYPE html>
     <title>Home</title>
   </head>
   <body>
-    <main class="container container--pall">
+    <main class="container container--pall mb--3">
       <h1 class="mb--3">Home</h1>
       <div>
         <a class="d-block" href="token">Generate Token</a>
@@ -217,12 +229,13 @@ exports.tokenPageTemplate = `<!DOCTYPE html>
     <title>Token</title>
   </head>
   <body>
-    <main class="container container--pall">
+    <main class="container container--pall mb--3">
       <h1 class="mb--3">Token</h1>
       <form action="token" method="POST">
         <input class="bg--c--accent-1" type="text" name="username" />
         <input class="btn--submit" type="submit" />
       </form>
+      <p><a class="fs--3xs text--c--accent-4" href="home">[I wanna go home]</a></p>
     </main>
   </body>
 </html>`;
@@ -238,13 +251,14 @@ exports.createNewTokenPageTemplate = (
     <title>New Token</title>
   </head>
   <body>
-    <main class="container container--pall">
+    <main class="container container--pall mb--3">
       <h1 class="mb--3"><span class="text--c--accent-1">Success.</span> Token is created</h1>
       <div class="text--white">
         <p><span class="text--c--accent-1">\"${tokenField}\"</span> token is: <span class="fs--3xl text--c--accent-1">${token}</span></p>
         <p>Token creation date: <span class="fs--m text--c--accent-1">${tokenCreated}</span></p>
         <p>Token expiry date: <span class="fs--m text--c--accent-1">${tokenExpires}</span></p>
       </div>
+      <p><a class="fs--3xs text--c--accent-4" href="home">[I wanna go home]</a></p>
     </main>
   </body>`;
 };
@@ -255,9 +269,10 @@ exports.createTokenCountPageTemplate = (count) => {
     <title>Token Count</title>
   </head>
   <body>
-    <main class="container container--pall">
+    <main class="container container--pall mb--3">
       <h1 class="mb--3"><span class="text--c--accent-1">Token</span> Count</h1>
       <p>Current count of tokens: <span class="fs--3xl text--c--accent-1">${count}</span></p>
+      <p><a class="fs--3xs text--c--accent-4" href="home">[I wanna go home]</a></p>
     </main>
   </body>`;
 };
